@@ -10,18 +10,19 @@ class ShelfBookView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 20, right: 20),
-      height: 250,
+//      padding: EdgeInsets.only(left: 20, right: 20),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Card(
-              child: Image.network(
-            userBook.cover,
-            width: 100,
-            height: 125,
-            fit: BoxFit.fill,
-          )),
+                  elevation: 0,
+                  child: Image.network(
+                    userBook.cover,
+                    width: 100,
+                    height: 125,
+                    scale: 0.8,
+//            fit: BoxFit.fill,
+                  )),
           Text(
             userBook.name,
             maxLines: 1,

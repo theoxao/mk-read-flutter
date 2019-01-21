@@ -43,6 +43,7 @@ class ShelfState extends State<ShelfWidget>
             list.add(GridTile(child: ShelfBookView(value)));
           }
           return LiquidPullToRefresh(
+            showChildOpacityTransition: false,
             height: 80,
             springAnimationDurationInMilliseconds: 600,
             child: GridView.count(

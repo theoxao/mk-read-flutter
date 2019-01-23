@@ -39,7 +39,7 @@ class AppState extends State<App> {
 
   ThemeData get theme {
     var i = DateTime.now().millisecond % 2;
-    if (true) {
+    if (i==0) {
       return ThemeData(
           brightness: Brightness.light, primarySwatch: primaryColor);
     } else {

@@ -1,8 +1,7 @@
-import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mk/blocs/home_bloc.dart';
-import 'package:flutter_mk/models/home_model.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_umeng_analytics_fork/flutter_umeng_analytics_fork.dart';
+import 'package:redux/redux.dart';
 
 import '../common/commons.dart';
 import '../widgets/group_widget.dart';
@@ -14,14 +13,47 @@ class HomePage extends StatefulWidget {
   State<StatefulWidget> createState() => HomeState();
 }
 
+int switchIndex(int state, dynamic action) {
+  return state = action;
+}
+
 class HomeState extends State<HomePage> {
-  HomeBloc bloc;
+  final indexStore = Store<int>(switchIndex, initialState: 0);
 
   final _options = <Widget>[
     ShelfWidget(),
     GroupWidget(),
     MineWidget(),
   ];
+
+  static const List<BottomNavigationBarItem> defaultItems =
+      const <BottomNavigationBarItem>[
+    BottomNavigationBarItem(icon: Icon(Icons.book), title: Text("书架")),
+    BottomNavigationBarItem(icon: Icon(Icons.group), title: Text("小组")),
+    BottomNavigationBarItem(icon: Icon(Icons.home), title: Text("我的"))
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return StoreProvider<int>(
+      store: indexStore,
+      child:StoreConnector<int,int>(builder: (context , index){
+        return Scaffold(
+          body: Center(
+            child: _options.elementAt(index),
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            items: defaultItems,
+            currentIndex: index,
+            fixedColor: primaryColor,
+            onTap: (value) {
+              indexStore.dispatch(value);
+            },
+          ),
+        );
+      }, converter: (store)=>store.state)
+    );
+  }
 
   @override
   void initState() {
@@ -33,30 +65,5 @@ class HomeState extends State<HomePage> {
   void dispose() {
     super.dispose();
     UMengAnalytics.endPageView("home");
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    bloc = BlocProvider.of<HomeBloc>(context);
-    return StreamBuilder(
-      stream: bloc.stream,
-      initialData: Home(),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        Home home = snapshot.data;
-        return Scaffold(
-          body: Center(child: _options.elementAt(home.currentIndex)),
-          bottomNavigationBar: BottomNavigationBar(
-            items: home.bottomItems,
-            currentIndex: home.currentIndex,
-            fixedColor: primaryColor,
-            onTap: _navOnTap,
-          ),
-        );
-      },
-    );
-  }
-
-  _navOnTap(int index) {
-    bloc.sink.add(Home(currentIndex: index));
   }
 }

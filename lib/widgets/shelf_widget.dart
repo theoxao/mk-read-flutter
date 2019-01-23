@@ -7,44 +7,29 @@ import '../views/shelf_book_view.dart';
 import '../models/user_book.dart';
 import 'package:flutter_umeng_analytics_fork/flutter_umeng_analytics_fork.dart';
 
-class ShelfStateModel {
-  List<String> tabs;
-
-  List<UserBook> books = [];
-
-  ShelfStateModel(
-      {this.tabs = const [
-        "全部",
-        "工具",
-        "课外书",
-        "其他",
-        "未知",
-        "测试",
-      ],
-      this.books});
-}
-
-enum Actions { loadBooks, loadTags }
 
 class ShelfWidget extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => ShelfState();
 }
 
-ShelfStateModel shelfStateReducer(ShelfStateModel state, dynamic action) {
-  return ShelfStateModel();
-}
-
 class ShelfState extends State<ShelfWidget>
     with SingleTickerProviderStateMixin {
+  var tabs = const [
+    "全部",
+    "工具",
+    "课外书",
+    "其他",
+    "未知",
+    "测试",
+  ];
+  List<UserBook> books = [];
   TabController _tabController;
-  final shelfStore = Store<ShelfStateModel>(shelfStateReducer,
-      initialState: ShelfStateModel());
 
   @override
   void initState() {
     super.initState();
-    // _tabController = TabController(length: tabs.length, vsync: this);
+    _tabController = TabController(length: tabs.length, vsync: this);
     UMengAnalytics.beginPageView("shelf");
   }
 
@@ -80,53 +65,40 @@ class ShelfState extends State<ShelfWidget>
 
   @override
   Widget build(BuildContext context) {
-    return StoreProvider<ShelfStateModel>(
-      store: shelfStore,
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 1,
-          backgroundColor: Colors.white,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Expanded(
-                child: StoreConnector<ShelfStateModel, List<String>>(
-                  builder: (context, tabs) {
-                    return TabBar(
-                        controller: _tabController,
-                        isScrollable: true,
-                        labelColor: Colors.black,
-                        tabs: tabs.map((s) {
-                          return Tab(
-                            text: s,
-                          );
-                        }).toList());
-                  },
-                  converter: (store) => store.state.tabs,
-                ),
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 1,
+        backgroundColor: Colors.white,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Expanded(
+              child: TabBar(
+                  controller: _tabController,
+                  isScrollable: true,
+                  labelColor: Colors.black,
+                  tabs: tabs.map((s) {
+                    return Tab(
+                      text: s,
+                    );
+                  }).toList()),
+            ),
+            Center(
+              child: Icon(
+                Icons.add,
+                color: Colors.black,
               ),
-              Center(
-                child: Icon(
-                  Icons.add,
-                  color: Colors.black,
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
-        body: StoreConnector(
-          builder: (context, tabs) {
-            return TabBarView(
-                controller: _tabController,
-                children: tabs.map((s) {
-                  return getByTag(s);
-                }).toList());
-          },
-          converter: (store) => store.state.tabs,
-        ),
-        floatingActionButton: FloatingActionButton(onPressed: fabPressed),
       ),
+      body: TabBarView(
+          controller: _tabController,
+          children: tabs.map((s) {
+            return getByTag(s);
+          }).toList()),
+      floatingActionButton: FloatingActionButton(onPressed: fabPressed),
     );
   }
 

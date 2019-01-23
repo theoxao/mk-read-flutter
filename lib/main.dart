@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mk/pages/search_book_page.dart';
 import 'package:flutter_umeng_analytics_fork/flutter_umeng_analytics_fork.dart';
 import 'package:platform/platform.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'common/commons.dart';
 import 'pages/add_book_page.dart';
 import 'pages/home_page.dart';
@@ -39,7 +39,7 @@ class AppState extends State<App> {
 
   ThemeData get theme {
     var i = DateTime.now().millisecond % 2;
-    if (i==0) {
+    if (true) {
       return ThemeData(
           brightness: Brightness.light, primarySwatch: primaryColor);
     } else {

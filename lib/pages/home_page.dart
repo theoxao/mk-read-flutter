@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_umeng_analytics_fork/flutter_umeng_analytics_fork.dart';
 import 'package:redux/redux.dart';
 
@@ -35,23 +36,26 @@ class HomeState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil(width: 375, height: 667)
+      ..init(context);
+
     return StoreProvider<int>(
-      store: indexStore,
-      child:StoreConnector<int,int>(builder: (context , index){
-        return Scaffold(
-          body: Center(
-            child: _options.elementAt(index),
-          ),
-          bottomNavigationBar: BottomNavigationBar(
-            items: defaultItems,
-            currentIndex: index,
-            fixedColor: primaryColor,
-            onTap: (value) {
-              indexStore.dispatch(value);
-            },
-          ),
-        );
-      }, converter: (store)=>store.state)
+        store: indexStore,
+        child:StoreConnector<int,int>(builder: (context , index){
+          return Scaffold(
+            body: Center(
+              child: _options.elementAt(index),
+            ),
+            bottomNavigationBar: BottomNavigationBar(
+              items: defaultItems,
+              currentIndex: index,
+              fixedColor: primaryColor,
+              onTap: (value) {
+                indexStore.dispatch(value);
+              },
+            ),
+          );
+        }, converter: (store)=>store.state)
     );
   }
 

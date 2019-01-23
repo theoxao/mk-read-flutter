@@ -64,7 +64,7 @@ class AddBookState extends State<AddBookPage> {
                             textColor: Colors.white,
                             onPressed: scanPressed,
                             icon: Icon(Icons.scanner),
-                            label: Text("扫描二维码")),
+                            label: Text("扫描ISBN码")),
                       ),
                     ),
                     SizedBox(

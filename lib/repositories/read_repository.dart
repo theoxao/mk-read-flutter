@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_mk/models/book.dart';
+import 'package:flutter_mk/models/read_progress.dart';
 
 import '../models/user_book.dart';
 //part 'read_repository.g.dart';
@@ -44,4 +45,15 @@ Future fetchReadStat(String id) async {
     var response = await Dio(getOptions).get(path);
     print(response.data);
     return response.data['data'];
+}
+
+Future<List<ReadProgress>> fetchReadProgress(String id, String offsetId, int size) async {
+    print("requesting read progress id $id, offsetId $offsetId, size $size");
+    String path = host + "/read/read/read_log?id=$id&offsetId=$offsetId&size=$size";
+    var response = await Dio(getOptions).get(path);
+    List<ReadProgress> list = [];
+    for (var value in response.data['data']) {
+        list.add(ReadProgress.fromJsonMap(value));
+    }
+    return list;
 }

@@ -3,6 +3,7 @@ import 'package:flutter_mk/common/commons.dart';
 import 'package:flutter_mk/models/user_book.dart';
 import 'package:flutter_mk/views/book_detail_card.dart';
 import 'package:flutter_mk/views/book_stat_card.dart';
+import 'package:flutter_mk/views/read_progress_card.dart';
 
 class BookDetailPage extends StatefulWidget {
   final UserBook userBook;
@@ -27,6 +28,7 @@ class _BookDetailPageState extends State<BookDetailPage> {
           children: <Widget>[
             BookDetailCard(widget.userBook),
             BookStatCard(widget.userBook),
+            ReadProgressCard(widget.userBook),
           ],
         ),
       ),

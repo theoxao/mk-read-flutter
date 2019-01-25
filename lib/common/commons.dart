@@ -9,14 +9,28 @@ get colorWhite => Colors.white;
 
 get colorDivider => Colors.white70;
 
-double get primaryTextSize => ScreenUtil.instance.setWidth(32);
+double get primaryTextSize => ScreenUtil.instance.setWidth(16);
 
-double get secondTextSize => ScreenUtil.instance.setWidth(28);
+double get secondTextSize => ScreenUtil.instance.setWidth(14);
 
-double get thirdTextSize => ScreenUtil.instance.setWidth(24);
+double get thirdTextSize => ScreenUtil.instance.setWidth(12);
+
+double get padding8 => ScreenUtil.instance.setWidth(8);
+
+double get padding12 => ScreenUtil.instance.setWidth(12);
+
+double padding(int size) => ScreenUtil.instance.setWidth(size);
 
 double get coverScale => 80.0 / 110.0;
 
-double get coverWidth => ScreenUtil.instance.setWidth(160);
+double get coverWidth => ScreenUtil.instance.setWidth(80);
 
-double get coverHeight => ScreenUtil.instance.setWidth(220);
+double get coverHeight => ScreenUtil.instance.setHeight(110);
+
+TextStyle get bookNameStyle =>
+        TextStyle(fontWeight: FontWeight.normal, fontSize: primaryTextSize, color: Colors
+                .black, decoration: TextDecoration.none);
+
+TextStyle get bookAuthorStyle =>
+        TextStyle(fontWeight: FontWeight.normal, fontSize: secondTextSize, color: Colors
+                .black87, decoration: TextDecoration.none);

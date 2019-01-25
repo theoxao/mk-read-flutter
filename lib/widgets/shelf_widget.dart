@@ -7,7 +7,6 @@ import '../views/shelf_book_view.dart';
 import '../models/user_book.dart';
 import 'package:flutter_umeng_analytics_fork/flutter_umeng_analytics_fork.dart';
 
-
 class ShelfWidget extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => ShelfState();
@@ -98,7 +97,10 @@ class ShelfState extends State<ShelfWidget>
           children: tabs.map((s) {
             return getByTag(s);
           }).toList()),
-      floatingActionButton: FloatingActionButton(onPressed: fabPressed),
+      floatingActionButton: FloatingActionButton(
+        onPressed: fabPressed,
+        child: Icon(Icons.add),
+      ),
     );
   }
 

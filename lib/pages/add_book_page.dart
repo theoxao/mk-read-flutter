@@ -98,7 +98,7 @@ class AddBookState extends State<AddBookPage> {
                           imageUrl:
                               "http://img1.doubanio.com/vie/subject/s/pubc/s11284102.jg",
                           placeholder: Image(
-                            image: AssetImage("images/ic_add_cover.png"),
+                              image: AssetImage("image/ic_add_cover.png"),
                             width: coverWidth,
                             height: coverHeight,
                           ),

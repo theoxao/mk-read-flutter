@@ -36,3 +36,12 @@ Future<List<Book>> fetchBookByIsbn(String isbn) async {
   }
   return result;
 }
+
+
+Future fetchReadStat(String id) async {
+    print("requesting read stat");
+    String path = host + "/read/read/read_stat?id=$id";
+    var response = await Dio(getOptions).get(path);
+    print(response.data);
+    return response.data['data'];
+}

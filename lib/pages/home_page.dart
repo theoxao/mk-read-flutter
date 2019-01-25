@@ -36,7 +36,7 @@ class HomeState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil(width: 375, height: 667)
+      ScreenUtil.instance = ScreenUtil(width: 375, height: 667)
       ..init(context);
 
     return StoreProvider<int>(

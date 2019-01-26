@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mk/pages/read_page.dart';
 import 'package:flutter_mk/pages/search_book_page.dart';
 import 'package:flutter_umeng_analytics_fork/flutter_umeng_analytics_fork.dart';
 import 'package:platform/platform.dart';

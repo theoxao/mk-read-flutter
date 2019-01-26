@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mk/common/commons.dart';
 import 'package:flutter_mk/models/user_book.dart';
+import 'package:flutter_mk/pages/read_page.dart';
 
 class BookDetailCard extends StatelessWidget {
   final UserBook userBook;
@@ -51,11 +52,32 @@ class BookDetailCard extends StatelessWidget {
               Text(
                 userBook.createAt.toString(),
                 style: TextStyle(fontSize: thirdTextSize),
+              ),
+              Row(
+                children: <Widget>[
+                  RaisedButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                        return ReadPage("", userBook);
+                      }));
+                    },
+                    child: Text("开始阅读"),
+                  ),
+                  RaisedButton(
+                    onPressed: addNewBook,
+                    child: Icon(Icons.add),
+                  ),
+                ],
               )
             ],
           )
         ],
       ),
     );
+  }
+
+
+  void addNewBook() {
+
   }
 }

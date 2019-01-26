@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_mk/models/book.dart';
-import 'package:flutter_mk/models/read_progress.dart';
+import 'package:flutter_mk/models/read_detail_models.dart';
 
 import '../models/user_book.dart';
 //part 'read_repository.g.dart';
@@ -12,6 +12,13 @@ Options get getOptions {
   headers['token'] = "70843bc3-794a-4d99-a05a-c4e6487036bd";
   var _options = Options(headers: headers);
   return _options;
+}
+
+Future<List<dynamic>> fetchTagList() async {
+    print("requesting tag list");
+    String path = host + "/read/tag/list";
+    var response = await Dio(getOptions).get(path);
+    return response.data['data'];
 }
 
 Future<List<UserBook>> fetchShelfBook(String tag) async {
@@ -38,7 +45,6 @@ Future<List<Book>> fetchBookByIsbn(String isbn) async {
   return result;
 }
 
-
 Future fetchReadStat(String id) async {
     print("requesting read stat");
     String path = host + "/read/read/read_stat?id=$id";
@@ -49,11 +55,23 @@ Future fetchReadStat(String id) async {
 
 Future<List<ReadProgress>> fetchReadProgress(String id, String offsetId, int size) async {
     print("requesting read progress id $id, offsetId $offsetId, size $size");
-    String path = host + "/read/read/read_log?id=$id&offsetId=$offsetId&size=$size";
+    String path =
+            host + "/read/read/read_log?id=$id&offsetId=$offsetId&size=$size";
     var response = await Dio(getOptions).get(path);
     List<ReadProgress> list = [];
     for (var value in response.data['data']) {
         list.add(ReadProgress.fromJsonMap(value));
+    }
+    return list;
+}
+
+Future<List<ReadExcerpt>> fetchReadExcerpt(String id, int page, int size) async {
+    print("request read excerpt id $id");
+    String path = host + "/read/excerpt/index?bookId=$id&page=$page&size=$size";
+    var response = await Dio(getOptions).get(path);
+    List<ReadExcerpt> list = [];
+    for (var value in response.data['data']) {
+        list.add(ReadExcerpt.fromJsonMap(value));
     }
     return list;
 }

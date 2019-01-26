@@ -30,7 +30,7 @@ class BookStatCard extends StatelessWidget {
                           Icon(Icons.timer),
                           "阅读页数",
                           Text(
-                            data['progress'],
+                              data != null ? data['progress'] : "0/${userBook.pageCount}",
                             style: bookNameStyle,
                           )),
                     ),
@@ -39,14 +39,14 @@ class BookStatCard extends StatelessWidget {
                           Icon(Icons.timer),
                           "累计阅读时间",
                           Text(
-                            timeParse(data['totalDuration']),
+                              data != null ? timeParse(data['totalDuration']) : "暂无阅读记录",
                             overflow: TextOverflow.ellipsis,
                             style: bookNameStyle,
                           )),
                     )
                   ],
                 ));
-                if (data['remainDays'] != null) {
+                if (data != null && data['remainDays'] != null) {
                   widgets.add(Divider());
                   widgets.add(BookStatItem(
                       Icon(Icons.book),

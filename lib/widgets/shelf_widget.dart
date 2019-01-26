@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mk/pages/tag_manage_page.dart';
 import 'package:flutter_mk/repositories/read_repository.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -83,10 +84,17 @@ class ShelfState extends State<ShelfWidget>
                     );
                   }).toList()),
             ),
-            Center(
-              child: Icon(
-                Icons.add,
-                color: Colors.black,
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                  return TagManagePage();
+                }));
+              },
+              child: Center(
+                child: Icon(
+                  Icons.add,
+                  color: Colors.black,
+                ),
               ),
             )
           ],

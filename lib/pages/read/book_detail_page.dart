@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mk/common/commons.dart';
 import 'package:flutter_mk/models/user_book.dart';
-import 'package:flutter_mk/views/book_detail_card.dart';
-import 'package:flutter_mk/views/book_stat_card.dart';
-import 'package:flutter_mk/views/read_excerpt_card.dart';
-import 'package:flutter_mk/views/read_progress_card.dart';
+import 'package:flutter_mk/views/read/book_detail_card.dart';
+import 'package:flutter_mk/views/read/book_stat_card.dart';
+import 'package:flutter_mk/views/read/read_excerpt_card.dart';
+import 'package:flutter_mk/views/read/read_progress_card.dart';
 
 class BookDetailPage extends StatefulWidget {
   final UserBook userBook;

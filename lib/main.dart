@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mk/pages/read_page.dart';
-import 'package:flutter_mk/pages/search_book_page.dart';
+import 'package:flutter_mk/pages/read/read_page.dart';
+import 'package:flutter_mk/pages/read/search_book_page.dart';
 import 'package:flutter_umeng_analytics_fork/flutter_umeng_analytics_fork.dart';
 import 'package:platform/platform.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'common/commons.dart';
-import 'pages/add_book_page.dart';
-import 'pages/home_page.dart';
+import 'package:flutter_mk/pages/read/add_book_page.dart';
+import 'package:flutter_mk/pages/read/home_page.dart';
 
 final Platform platform = const LocalPlatform();
 

@@ -6,7 +6,7 @@ import 'package:flutter_mk/helper/ensure_visiable_helper.dart';
 import 'package:flutter_mk/repositories/read_repository.dart';
 import 'package:flutter_umeng_analytics_fork/flutter_umeng_analytics_fork.dart';
 
-import '../common/commons.dart';
+import 'package:flutter_mk/common/commons.dart';
 
 class AddBookPage extends StatefulWidget {
   @override

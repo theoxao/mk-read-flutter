@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_umeng_analytics_fork/flutter_umeng_analytics_fork.dart';
 import 'package:redux/redux.dart';
 
-import '../common/commons.dart';
-import '../widgets/group_widget.dart';
-import '../widgets/mine_widget.dart';
-import '../widgets/shelf_widget.dart';
+import 'package:flutter_mk/common/commons.dart';
+import 'package:flutter_mk/widgets/group_widget.dart';
+import 'package:flutter_mk/widgets/mine_widget.dart';
+import 'package:flutter_mk/widgets/shelf_widget.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -19,11 +18,11 @@ int switchIndex(int state, dynamic action) {
 }
 
 class HomeState extends State<HomePage> {
-  final indexStore = Store<int>(switchIndex, initialState: 0);
+  final indexStore = Store<int>(switchIndex, initialState: 1);
 
   final _options = <Widget>[
     ShelfWidget(),
-    GroupWidget(),
+    GroupListWidget(),
     MineWidget(),
   ];
 
@@ -36,9 +35,6 @@ class HomeState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-      ScreenUtil.instance = ScreenUtil(width: 375, height: 667)
-      ..init(context);
-
     return StoreProvider<int>(
         store: indexStore,
         child:StoreConnector<int,int>(builder: (context , index){

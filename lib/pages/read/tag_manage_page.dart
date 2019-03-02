@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mk/repositories/read_repository.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TagManagePage extends StatelessWidget {
   List<String> list = ["晨读", "科幻", "小说", "小说", "小说", "小说", "小说", "小说"];
@@ -19,7 +18,7 @@ class TagManagePage extends StatelessWidget {
               child: Card(
                 shape: Border(),
                 child: SizedBox(
-                  width: ScreenUtil.instance.setWidth(375),
+                    width: 360,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(

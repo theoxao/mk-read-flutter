@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mk/pages/tag_manage_page.dart';
+import 'package:flutter_mk/common/commons.dart';
+import 'package:flutter_mk/pages/read/tag_manage_page.dart';
 import 'package:flutter_mk/repositories/read_repository.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:redux/redux.dart';
-import '../views/shelf_book_view.dart';
+import 'package:flutter_mk/views/read/shelf_book_view.dart';
 import '../models/user_book.dart';
 import 'package:flutter_umeng_analytics_fork/flutter_umeng_analytics_fork.dart';
 
@@ -34,32 +33,30 @@ class ShelfState extends State<ShelfWidget>
   }
 
   Widget getByTag(String tag) {
-    return FutureBuilder<List<UserBook>>(
-      future: fetchShelfBook(tag),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.hasError) print(snapshot.error);
-        if (snapshot.hasData) {
-          List<Widget> list = [];
-          for (var value in snapshot.data) {
-            list.add(GridTile(child: ShelfBookView(value)));
-          }
-          return LiquidPullToRefresh(
-              showChildOpacityTransition: false,
-              height: 80,
-              springAnimationDurationInMilliseconds: 600,
-              child: GridView.count(
+      return Padding(
+          padding: const EdgeInsets.only(left: 16, right: 16),
+          child: FutureBuilder<List<UserBook>>(
+              future: fetchShelfBook(tag),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasError) print(snapshot.error);
+                  if (snapshot.hasData) {
+                      List<Widget> list = [];
+                      for (var value in snapshot.data) {
+                          list.add(GridTile(child: ShelfBookView(value)));
+                      }
+                      return GridView.custom(
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
-                childAspectRatio: 0.75,
-                controller: ScrollController(keepScrollOffset: false),
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                children: list,
-              ),
-              onRefresh: () {});
-        }
-        ;
-        return Text("");
-      },
+                              childAspectRatio: 0.7,
+//                    crossAxisSpacing: padding16
+                          ),
+                          childrenDelegate: SliverChildListDelegate(list),
+                          controller: ScrollController(keepScrollOffset: false),
+                      );
+                  };
+                  return Text("");
+              },
+          ),
     );
   }
 
@@ -86,7 +83,8 @@ class ShelfState extends State<ShelfWidget>
             ),
             GestureDetector(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                  Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
                   return TagManagePage();
                 }));
               },

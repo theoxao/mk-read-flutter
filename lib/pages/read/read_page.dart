@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mk/models/user_book.dart';
-import 'package:flutter_mk/views/book_detail_card.dart';
+import 'package:flutter_mk/views/read/book_detail_card.dart';
 
 class ReadPage extends StatefulWidget {
   final String progress;

@@ -36,9 +36,9 @@ dependencies:
   fluro: 1.4.0  # route framework  see `https://pub.dartlang.org/packages/fluro`
   flutter_umeng_analytics_fork: 0.0.3 # umeng app statistic see `https://pub.dartlang.org/packages/flutter_umeng_analytics`
   platform: 2.2.0
-  flutter_screenutil: ^0.4.6
+#  flutter_screenutil: ^0.4.6
   #  jpush_flutter: 0.0.9
-  rxdart: ^0.20.0
+  rxdart: ^0.21.0
   redux: ^3.0.0
   flutter_redux: ^0.5.3
   bloc_pattern: 1.5.0

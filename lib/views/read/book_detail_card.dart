@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mk/common/commons.dart';
 import 'package:flutter_mk/models/user_book.dart';
-import 'package:flutter_mk/pages/read_page.dart';
+import 'package:flutter_mk/pages/read/read_page.dart';
 
 class BookDetailCard extends StatelessWidget {
   final UserBook userBook;

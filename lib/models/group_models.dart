@@ -18,79 +18,10 @@ class Group {
                 image = map["image"],
                 type = map["type"],
                 memberCount = map["memberCount"],
-                members = List < Members>.
+                members = List < Members>.  from   (   map   ["members" ]      . map ( ( it ) =>  Members.fromJsonMap(it)  )    )   ,
 
-    from
-
-    (
-
-    map
-
-    [
-
-    "
-
-    members
-
-    "
-
-    ]
-
-            .
-
-    map
-
-    (
-
-    (
-
-    it
-
-    )
-
-    =>
-
-    Members.fromJsonMap(it)
-
-    )
-
-    )
-
-    ,
-
-    owner
-
-    =
-
-    map
-
-    [
-
-    "
-
-    owner
-
-    "
-
-    ]
-
-    ,
-
-    messageCount
-
-    =
-
-    map
-
-    [
-
-    "
-
-    messageCount
-
-    "
-
-    ];
+    owner    =   map  ["owner" ] ,
+    messageCount=   map ["messageCount" ];
 
 }
 

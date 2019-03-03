@@ -35,42 +35,7 @@ class ReadExcerpt {
                 refBook = map["refBook"],
                 refPage = map["refPage"],
                 content = map["content"],
-                images = List < String>.
-
-    from
-
-    (
-
-    map
-
-    [
-
-    "
-
-    images
-
-    "
-
-    ]
-
-    )
-
-    ,
-
-    createAt
-
-    =
-
-    map
-
-    [
-
-    "
-
-    createAt
-
-    "
-
-    ];
+                images = List < String>.    from    ( map["images"]),
+    createAt =   map   ["createAt"];
 
 }

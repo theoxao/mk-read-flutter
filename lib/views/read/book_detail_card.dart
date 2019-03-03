@@ -16,38 +16,29 @@ class BookDetailCard extends StatelessWidget {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Hero(
-              tag: userBook.cover,
-              child: Card(
-                elevation: 1,
-                shape: Border(),
-                child: Image.network(
-                  userBook.cover,
-                  fit: BoxFit.cover,
-                  width: coverWidth,
-                  height: coverHeight,
-                  scale: 80.0 / 110.0,
+            child: Card(
+              elevation: 1,
+              shape: Border(),
+              child: Image.network(
+                userBook.cover,
+                fit: BoxFit.cover,
+                width: coverWidth,
+                height: coverHeight,
+                scale: 80.0 / 110.0,
 //            fit: BoxFit.fill,
-                ),
               ),
             ),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Hero(
-                tag: userBook.name,
-                child: Text(
-                  userBook.name,
-                  style: bookNameStyle,
-                ),
+              Text(
+                userBook.name,
+                style: bookNameStyle,
               ),
-              Hero(
-                tag: userBook.author,
-                child: Text(
-                  userBook.author,
-                  style: bookAuthorStyle,
-                ),
+              Text(
+                userBook.author,
+                style: bookAuthorStyle,
               ),
               Text(
                 userBook.createAt.toString(),

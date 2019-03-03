@@ -125,7 +125,12 @@ class _GroupDetailState extends State<GroupDetail> {
                   ),
                 ),
                 SliverToBoxAdapter(
-                        child: GroupDetailWidget(widget.id)
+                        child: Container(
+                                color:Colors.white,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 16 ,left: 8 , right: 8),
+                                  child: GroupDetailWidget(widget.id),
+                                ),)
                 )
               ],
             );

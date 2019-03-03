@@ -19,7 +19,6 @@ class Group {
                 type = map["type"],
                 memberCount = map["memberCount"],
                 members = List < Members>.  from   (   map   ["members" ]      . map ( ( it ) =>  Members.fromJsonMap(it)  )    )   ,
-
     owner    =   map  ["owner" ] ,
     messageCount=   map ["messageCount" ];
 

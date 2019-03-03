@@ -23,43 +23,34 @@ class ShelfBookView extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Hero(
-                tag: userBook.cover,
-                child: Card(
-                  elevation: 1,
-                  shape: Border(),
-                  child: Image.network(
-                    userBook.cover,
-                    fit: BoxFit.cover,
-                    width: coverWidth,
-                    height: coverHeight,
-                    scale: coverScale,
+              Card(
+                elevation: 1,
+                shape: Border(),
+                child: Image.network(
+                  userBook.cover,
+                  fit: BoxFit.cover,
+                  width: coverWidth,
+                  height: coverHeight,
+                  scale: coverScale,
 //            fit: BoxFit.fill,
-                  ),
                 ),
               ),
-              Hero(
-                tag: userBook.name,
-                child: SizedBox(
-                  width: 95,
-                  child: Text(
-                    userBook.name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: bookNameStyle,
-                  ),
+              SizedBox(
+                width: 95,
+                child: Text(
+                  userBook.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: bookNameStyle,
                 ),
               ),
-              Hero(
-                tag: userBook.author,
-                child: SizedBox(
-                  width: 95,
-                  child: Text(
-                    userBook.author,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: bookAuthorStyle,
-                  ),
+              SizedBox(
+                width: 95,
+                child: Text(
+                  userBook.author,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: bookAuthorStyle,
                 ),
               )
             ],

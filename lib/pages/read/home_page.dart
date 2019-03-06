@@ -18,7 +18,7 @@ int switchIndex(int state, dynamic action) {
 }
 
 class HomeState extends State<HomePage> {
-  final indexStore = Store<int>(switchIndex, initialState: 1);
+  final indexStore = Store<int>(switchIndex, initialState: 0);
 
   final _options = <Widget>[
     ShelfWidget(),

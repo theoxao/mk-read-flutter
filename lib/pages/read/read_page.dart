@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mk/models/user_book.dart';
+import 'package:flutter_mk/repositories/read_repository.dart';
 import 'package:flutter_mk/views/read/book_detail_card.dart';
 
 class ReadPage extends StatefulWidget {
+  String logId;
   final String progress;
   final UserBook userBook;
 
-  const ReadPage(this.progress, this.userBook, {Key key}) : super(key: key);
+  ReadPage(this.logId, this.progress, this.userBook, {Key key})
+      : super(key: key);
 
   @override
   _ReadPageState createState() => _ReadPageState();
@@ -64,7 +67,9 @@ class _ReadPageState extends State<ReadPage> {
                   child: Text("暂停"),
                 ),
                 RaisedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    readOperation(widget.logId, widget.userBook.id, 0, 10);
+                  },
                   child: Text("结束阅读"),
                 ),
               ],
@@ -73,5 +78,17 @@ class _ReadPageState extends State<ReadPage> {
         ),
       ),
     );
+  }
+}
+
+
+
+class PageInputDialog extends Dialog{
+
+  PageInputDialog({Key key}):super(key:key) ;
+
+  @override
+  Widget build(BuildContext context) {
+
   }
 }

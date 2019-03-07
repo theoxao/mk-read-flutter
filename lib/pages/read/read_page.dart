@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mk/models/user_book.dart';
 import 'package:flutter_mk/repositories/read_repository.dart';
 import 'package:flutter_mk/views/read/book_detail_card.dart';
+import 'package:flutter_mk/helper/ensure_visiable_helper.dart';
 
 class ReadPage extends StatefulWidget {
   String logId;
@@ -16,6 +17,10 @@ class ReadPage extends StatefulWidget {
 }
 
 class _ReadPageState extends State<ReadPage> {
+  var pageController = TextEditingController();
+  var inputDialog = PageInputDialog();
+  var focusNode= FocusNode();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,6 +63,18 @@ class _ReadPageState extends State<ReadPage> {
                 ),
               ),
             ),
+            EnsureVisibleWhenFocused(
+              child: TextField(
+                controller: pageController,
+                focusNode: focusNode,
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                    labelText: "书名",
+                    border: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 0, style: BorderStyle.none))),
+              ), focusNode: focusNode,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               mainAxisSize: MainAxisSize.max,
@@ -68,7 +85,8 @@ class _ReadPageState extends State<ReadPage> {
                 ),
                 RaisedButton(
                   onPressed: () {
-                    readOperation(widget.logId, widget.userBook.id, 0, 10);
+                    String page = pageController.text;
+                    readOperation(widget.logId, widget.userBook.id, 0, page);
                   },
                   child: Text("结束阅读"),
                 ),
@@ -81,14 +99,19 @@ class _ReadPageState extends State<ReadPage> {
   }
 }
 
-
-
-class PageInputDialog extends Dialog{
-
-  PageInputDialog({Key key}):super(key:key) ;
+class PageInputDialog extends Dialog {
+  PageInputDialog({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
+    return Material(
+      type: MaterialType.transparency,
+      child: Center(
+        child: SizedBox(
+          width: 300,
+          height: 160,
+        ),
+      ),
+    );
   }
 }

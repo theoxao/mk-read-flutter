@@ -49,7 +49,7 @@ class BookDetailCard extends StatelessWidget {
                                 children: <Widget>[
                                     RaisedButton(
                                         onPressed: () {
-                                            readOperation("", userBook.id, 1, 0).then((logId) {
+                                            readOperation("", userBook.id, 1, "0").then((logId) {
                                                 Navigator.of(context)
                                                         .push(MaterialPageRoute(builder: (context) {
                                                     return ReadPage(logId,"", userBook);

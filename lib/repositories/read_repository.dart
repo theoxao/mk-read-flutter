@@ -70,7 +70,7 @@ Future<List<ReadExcerpt>> fetchReadExcerpt(
 
 ///try not use path param
 Future<String> readOperation(
-    String id, String refBook, int operation, int currentPage,
+    String id, String refBook, int operation, String currentPage,
     {int type = 1}) async {
   String path = host +
       "/read/read/read_operate?operation=$operation&refBook=$refBook&type=$type&currentPage=$currentPage";

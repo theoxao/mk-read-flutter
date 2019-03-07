@@ -76,9 +76,11 @@ Future<String> readOperation(
       "/read/read/read_operate?operation=$operation&refBook=$refBook&type=$type&currentPage=$currentPage";
   if (id != "") path += "&id=$id";
   print("read operation request ,path: $path");
-  var response = await Dio(getOptions).post(path);
-  if (response.data["data"] != null)
+  try {
+    var response = await Dio(getOptions).post(path);
+    print("read operation response $response");
     return response.data["data"]["id"];
-  else
-    throw Exception("操作失败");
+  }catch(e){
+
+  }
 }

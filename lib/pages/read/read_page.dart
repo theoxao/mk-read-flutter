@@ -3,6 +3,7 @@ import 'package:flutter_mk/models/user_book.dart';
 import 'package:flutter_mk/repositories/read_repository.dart';
 import 'package:flutter_mk/views/read/book_detail_card.dart';
 import 'package:flutter_mk/helper/ensure_visiable_helper.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ReadPage extends StatefulWidget {
   String logId;
@@ -86,7 +87,11 @@ class _ReadPageState extends State<ReadPage> {
                 RaisedButton(
                   onPressed: () {
                     String page = pageController.text;
-                    readOperation(widget.logId, widget.userBook.id, 0, page);
+                    try {
+                      readOperation(widget.logId, widget.userBook.id, 0, page);
+                    }catch(e){
+                      Fluttertoast.showToast(msg: e.toString());
+                    }
                   },
                   child: Text("结束阅读"),
                 ),

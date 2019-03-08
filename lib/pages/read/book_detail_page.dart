@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mk/common/commons.dart';
 import 'package:flutter_mk/models/user_book.dart';
-import 'package:flutter_mk/pages/stat_page.dart';
+import 'package:flutter_mk/pages/stat/stat_page.dart';
 import 'package:flutter_mk/views/read/book_detail_card.dart';
 import 'package:flutter_mk/views/read/book_stat_card.dart';
 import 'package:flutter_mk/views/read/read_excerpt_card.dart';

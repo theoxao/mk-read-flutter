@@ -11,16 +11,17 @@ class EventRequest {
     try {
       Response response = await Dio(options).get(options.path);
       return response.data;
-    }catch(e){
+    } on DioError catch (e) {
       FlushbarHelper.createError(message: e.toString());
       return null;
     }
   }
-  Future<Response> post(Options options) async{
-    try{
-      Response response =await Dio(options).post(options.path);
+
+  Future<Response> post(Options options) async {
+    try {
+      Response response = await Dio(options).post(options.path);
       return response;
-    }catch(e){
+    } on DioError catch (e) {
       FlushbarHelper.createError(message: e.toString());
       return null;
     }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:flutter_mk/blocs/stat_bloc.dart';
+import 'package:flutter_mk/blocs/stat/stat_bloc.dart';
 import 'package:flutter_mk/models/stat_models.dart';
 
 class StatChart extends StatelessWidget {

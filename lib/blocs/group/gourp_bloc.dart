@@ -1,11 +1,12 @@
+import 'package:flutter_mk/blocs/base_bloc.dart';
 import 'package:flutter_mk/models/group_models.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:flutter_mk/repositories/group_repository.dart';
 
-class GroupListBloc {
+class GroupListBloc extends BaseBloc<List<Group>> {
   static final GroupListBloc bloc = GroupListBloc._internal();
 
   GroupListBloc._internal() {
+    sink.add(List());
     initData();
   }
 
@@ -16,20 +17,24 @@ class GroupListBloc {
 
   List<Group> groupList = List();
 
-  final _subject = BehaviorSubject<List<Group>>.seeded(List());
-
-  Stream<List<Group>> get stream => _subject.stream;
-
-  Sink<List<Group>> get sink => _subject.sink;
-
-  void close() {
-    _subject.close();
-  }
-
   void initData() async {
-    var list = await fetchGroupList();
+    var list = await GroupRepository(context).fetchGroupList();
     this.groupList = list;
     sink.add(list);
+  }
+}
+
+class GroupDetailBloc extends BaseBloc<Group> {
+  Group currentGroup;
+
+  GroupDetailBloc(String id) {
+    initData(id);
+  }
+
+  void initData(String id) async {
+    var group = await GroupRepository(context).fetchGroupDetail(id);
+    this.currentGroup = group;
+    sink.add(group);
   }
 }
 
@@ -50,29 +55,5 @@ class GroupDetailBlocFactory {
       blocCache[id] = GroupDetailBloc(id);
     }
     return blocCache[id];
-  }
-}
-
-class GroupDetailBloc {
-  Group currentGroup;
-
-  GroupDetailBloc(String id) {
-    initData(id);
-  }
-
-  final _subject = BehaviorSubject<Group>();
-
-  Stream<Group> get stream => _subject.stream;
-
-  Sink<Group> get sink => _subject.sink;
-
-  void initData(String id) async {
-    var group = await fetchGroupDetail(id);
-    this.currentGroup = group;
-    sink.add(group);
-  }
-
-  void close() {
-    _subject.close();
   }
 }

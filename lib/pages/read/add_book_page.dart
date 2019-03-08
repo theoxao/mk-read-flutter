@@ -269,7 +269,8 @@ class AddBookState extends State<AddBookPage> {
   Future scan() async {
     try {
       String barCode = await BarcodeScanner.scan();
-      ReadRepository.fetchBookByIsbn(barCode);
+      //TODO unsure
+      ReadRepository(context).fetchBookByIsbn(barCode);
       setState(() {
         this.barCode = barCode;
       });

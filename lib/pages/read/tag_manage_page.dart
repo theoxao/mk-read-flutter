@@ -30,7 +30,7 @@ class TagManagePage extends StatelessWidget {
                         ]),
                         Divider(),
                         FutureBuilder(
-                          future: ReadRepository.fetchTagList(),
+                          future: ReadRepository(context).fetchTagList(),
                           builder:
                               (context, AsyncSnapshot<List<dynamic>> snapshot) {
                             if (snapshot.connectionState ==

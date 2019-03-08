@@ -11,6 +11,13 @@ Options get getOptions {
     return _options;
 }
 
+Options getOption(String path){
+    var options = getOptions;
+    options.path=path;
+    print("requesting at $path");
+    return options;
+}
+
 get primaryColor => Colors.blue;
 
 get accentColor => Colors.teal;

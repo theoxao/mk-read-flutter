@@ -17,7 +17,7 @@ class BookStatCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: FutureBuilder(
-            future: fetchReadStat(userBook.id),
+            future: ReadRepository.fetchReadStat(userBook.id),
             builder: (context, snapshot) {
               List<Widget> widgets = [];
               if (snapshot.connectionState == ConnectionState.done) {

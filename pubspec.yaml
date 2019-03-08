@@ -10,7 +10,7 @@ description: maikan read app
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.0.0-dev.68.0 <3.0.0"
+  sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -44,7 +44,7 @@ dependencies:
   bloc_pattern: 1.5.0
   flutter_spinkit: ^3.1.0
   flustars: 0.1.9
-  overlay_support: ^0.1.0
+  flushbar: 1.2.4
 
 dev_dependencies:
   flutter_test:

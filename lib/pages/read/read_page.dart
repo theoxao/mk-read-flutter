@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mk/helper/ensure_visiable_helper.dart';
 import 'package:flutter_mk/models/user_book.dart';
 import 'package:flutter_mk/repositories/read_repository.dart';
 import 'package:flutter_mk/views/read/book_detail_card.dart';
-import 'package:flutter_mk/helper/ensure_visiable_helper.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flushbar/flushbar_helper.dart';
 
 class ReadPage extends StatefulWidget {
   String logId;
@@ -20,7 +20,7 @@ class ReadPage extends StatefulWidget {
 class _ReadPageState extends State<ReadPage> {
   var pageController = TextEditingController();
   var inputDialog = PageInputDialog();
-  var focusNode= FocusNode();
+  var focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,8 @@ class _ReadPageState extends State<ReadPage> {
                     border: OutlineInputBorder(
                         borderSide:
                             BorderSide(width: 0, style: BorderStyle.none))),
-              ), focusNode: focusNode,
+              ),
+              focusNode: focusNode,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -87,11 +88,10 @@ class _ReadPageState extends State<ReadPage> {
                 RaisedButton(
                   onPressed: () {
                     String page = pageController.text;
-                    try {
-                      readOperation(widget.logId, widget.userBook.id, 0, page);
-                    }catch(e){
-                      Fluttertoast.showToast(msg: e.toString());
-                    }
+                    if (page != null && page.length > 0)
+                      ReadRepository(context).readOperation(widget.logId, widget.userBook.id, 0, page);
+                    else
+                      FlushbarHelper.createError(message: "page is incorrect!");
                   },
                   child: Text("结束阅读"),
                 ),

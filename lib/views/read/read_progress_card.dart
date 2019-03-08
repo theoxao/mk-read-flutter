@@ -17,7 +17,7 @@ class ReadProgressCard extends StatelessWidget {
     return Card(
       shape: Border(),
       child: FutureBuilder(
-        future: fetchReadProgress(userBook.id, "", 0),
+        future: ReadRepository.fetchReadProgress(userBook.id, "", 0),
         builder: (context, AsyncSnapshot<List<ReadProgress>> snapshot) {
           List<Widget> columns = [
             Row(

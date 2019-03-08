@@ -15,7 +15,7 @@ class ReadExcerptCard extends StatelessWidget {
     return Card(
         shape: Border(),
         child: FutureBuilder(
-          future: fetchReadExcerpt(userBook.id, 1, 3),
+          future: ReadRepository.fetchReadExcerpt(userBook.id, 1, 3),
           builder: (context, AsyncSnapshot<List<ReadExcerpt>> snapshot) {
             List<Widget> list = [];
             list.add(

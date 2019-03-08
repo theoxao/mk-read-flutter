@@ -36,7 +36,7 @@ class ShelfState extends State<ShelfWidget>
       return Padding(
           padding: const EdgeInsets.only(left: 16, right: 16),
           child: FutureBuilder<List<UserBook>>(
-              future: fetchShelfBook(tag),
+              future: ReadRepository.fetchShelfBook(tag),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasError) print(snapshot.error);
                   if (snapshot.hasData) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mk/blocs/read/read_bloc.dart';
 import 'package:flutter_mk/common/commons.dart';
 import 'package:flutter_mk/models/user_book.dart';
 import 'package:flutter_mk/pages/stat/stat_page.dart';
@@ -17,6 +18,7 @@ class BookDetailPage extends StatefulWidget {
 }
 
 class _BookDetailPageState extends State<BookDetailPage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +31,7 @@ class _BookDetailPageState extends State<BookDetailPage> {
           child: SingleChildScrollView(
               child: Column(
                   children: <Widget>[
-                      BookDetailCard(widget.userBook),
+                      BookDetailCard(widget.userBook.id),
                       BookStatCard(widget.userBook),
                       ReadProgressCard(widget.userBook),
                       ReadExcerptCard(

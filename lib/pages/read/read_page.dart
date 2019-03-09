@@ -32,7 +32,7 @@ class _ReadPageState extends State<ReadPage> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: <Widget>[
-              BookDetailCard(widget.userBook),
+              BookDetailCard(widget.userBook.id),
               SizedBox(
                 height: 200,
               ),

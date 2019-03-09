@@ -23,7 +23,7 @@ class ReadRepository {
     if (tag == "全部") tag = "";
     String path = host + "/read/shelf/list?tag=$tag";
     var response = await request.get(getOption(path));
-    var data = response.data['data'];
+    var data = response.data["data"];
     List<UserBook> result = [];
     for (var value in data) {
       result.add(UserBook.fromJsonMap(value));
@@ -85,5 +85,11 @@ class ReadRepository {
     Response response = await request.post(getOption(path));
     print("read operation response $response");
     return response.data["data"]["id"];
+  }
+
+  Future<UserBook> fetchBookDetail(String id ) async{
+     String path = "$host/read/read/detail?id=$id";
+     Response response = await request.get(getOption(path));
+     return UserBook.fromJsonMap(response.data["data"]);
   }
 }

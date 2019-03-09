@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mk/helper/my_flushbar_helper.dart';
 
 class EventRequest {
   final BuildContext context;
@@ -10,9 +11,9 @@ class EventRequest {
   Future<Response> get(Options options) async {
     try {
       Response response = await Dio(options).get(options.path);
-      return response.data;
+      return response;
     } on DioError catch (e) {
-      FlushbarHelper.createError(message: e.toString());
+      MyFlushbarHelper.globalNotify(message: "网络请求出错")..show(context);
       return null;
     }
   }
@@ -22,8 +23,8 @@ class EventRequest {
       Response response = await Dio(options).post(options.path);
       return response;
     } on DioError catch (e) {
-      FlushbarHelper.createError(message: e.toString());
-      return null;
+      MyFlushbarHelper.globalNotify(message:"网络请求出错")..show(context);
+      return Response(data:[]);
     }
   }
 }

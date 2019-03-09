@@ -19,7 +19,6 @@ class ReadPage extends StatefulWidget {
 
 class _ReadPageState extends State<ReadPage> {
   var pageController = TextEditingController();
-  var inputDialog = PageInputDialog();
   var focusNode = FocusNode();
 
   @override
@@ -28,95 +27,114 @@ class _ReadPageState extends State<ReadPage> {
       appBar: AppBar(
         title: Text(widget.userBook.name),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: <Widget>[
-            BookDetailCard(widget.userBook),
-            SizedBox(
-              height: 200,
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                RaisedButton(
-                  onPressed: () {},
-                  child: Text("阅读摘录"),
-                ),
-                RaisedButton(
-                  onPressed: () {},
-                  child: Text("倒计时阅读"),
-                ),
-              ],
-            ),
-            Card(
-              shape: Border(),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[Icon(Icons.queue_music), Text("环境音")],
-                    ),
-                    //TODO music list
-                  ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: <Widget>[
+              BookDetailCard(widget.userBook),
+              SizedBox(
+                height: 200,
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  RaisedButton(
+                    onPressed: () {},
+                    child: Text("阅读摘录"),
+                  ),
+                  RaisedButton(
+                    onPressed: () {},
+                    child: Text("倒计时阅读"),
+                  ),
+                ],
+              ),
+              Card(
+                shape: Border(),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[Icon(Icons.queue_music), Text("环境音")],
+                      ),
+                      //TODO music list
+                    ],
+                  ),
                 ),
               ),
-            ),
-            EnsureVisibleWhenFocused(
-              child: TextField(
-                controller: pageController,
-                focusNode: focusNode,
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                    labelText: "书名",
-                    border: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(width: 0, style: BorderStyle.none))),
-              ),
-              focusNode: focusNode,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                RaisedButton(
-                  onPressed: () {},
-                  child: Text("暂停"),
-                ),
-                RaisedButton(
-                  onPressed: () {
-                    String page = pageController.text;
-                    if (page != null && page.length > 0)
-                      ReadRepository(context).readOperation(widget.logId, widget.userBook.id, 0, page);
-                    else
-                      FlushbarHelper.createError(message: "page is incorrect!");
-                  },
-                  child: Text("结束阅读"),
-                ),
-              ],
-            )
-          ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  RaisedButton(
+                    onPressed: () {},
+                    child: Text("暂停"),
+                  ),
+                  RaisedButton(
+                    onPressed: () {
+                      _showPageInput();
+//                    String page = pageController.text;
+//                      ReadRepository(context).readOperation(widget.logId, widget.userBook.id, 0, page);
+                    },
+                    child: Text("结束阅读"),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
   }
+
+  Future _showPageInput() async {
+
+    String pageCount ="";
+    await showDialog<String>(
+      context: context,
+      child:  _SystemPadding(child:  AlertDialog(
+        contentPadding: const EdgeInsets.all(16.0),
+        content:  Row(
+          children: <Widget>[
+             Expanded(
+              child:  TextField(
+                keyboardType: TextInputType.number  ,
+                onChanged: (value){pageCount=value;},
+                autofocus: true,
+                decoration:  InputDecoration(
+                    labelText: 'Full Name', hintText: 'eg. John Smith'),
+              ),
+            )
+          ],
+        ),
+        actions: <Widget>[
+           RaisedButton(
+              child: const Text('OPEN'),
+              onPressed: () {
+                ReadRepository(context).readOperation(widget.logId, widget.userBook.id, 0, pageCount);
+                Navigator.pop(context);
+              })
+        ],
+      ),),
+    );
+  }
+
+
 }
 
-class PageInputDialog extends Dialog {
-  PageInputDialog({Key key}) : super(key: key);
+class _SystemPadding extends StatelessWidget {
+  final Widget child;
+
+  _SystemPadding({Key key, this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      type: MaterialType.transparency,
-      child: Center(
-        child: SizedBox(
-          width: 300,
-          height: 160,
-        ),
-      ),
-    );
+    var mediaQuery = MediaQuery.of(context);
+    return new AnimatedContainer(
+        padding: EdgeInsets.only(bottom: 0),
+        duration: const Duration(milliseconds: 300),
+        child: child);
   }
 }

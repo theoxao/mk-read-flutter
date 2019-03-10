@@ -14,7 +14,7 @@ class AddBookPage extends StatefulWidget {
   State<StatefulWidget> createState() => AddBookState();
 }
 
-class RequestBody{
+class RequestBody {
   var isbn;
   var cover;
   var name;
@@ -38,7 +38,7 @@ class AddBookState extends State<AddBookPage> {
   BookSearchBloc searchBloc;
   SelectedBookBLoc selectedBloc;
 
-
+  RequestBody _requestBody = RequestBody();
 
   @override
   void initState() {
@@ -122,8 +122,7 @@ class AddBookState extends State<AddBookPage> {
                               width: coverWidth,
                               height: coverHeight,
                               fit: BoxFit.fill,
-                              imageUrl:
-                                  book?.cover,
+                              imageUrl: book?.cover,
                               placeholder: Image(
                                 image: AssetImage("image/ic_add_cover.png"),
                                 width: coverWidth,
@@ -144,6 +143,11 @@ class AddBookState extends State<AddBookPage> {
                       focusNode: _focusNodeList[0],
                       child: Card(
                         child: TextField(
+                          onChanged: (value) {
+                            this.setState(() {
+                              _requestBody.name = value;
+                            });
+                          },
                           focusNode: _focusNodeList[0],
                           textAlign: TextAlign.center,
                           decoration: InputDecoration(

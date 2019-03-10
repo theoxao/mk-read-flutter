@@ -28,7 +28,6 @@ class BookSearchBloc extends BaseBloc<List<Book>>{
 
   void initData(String barCode) async{
     var books = await ReadRepository(context).fetchBookByIsbn(barCode);
-    this.books = books;
     sink.add(books);
   }
 }

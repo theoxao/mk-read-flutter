@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mk/helper/ensure_visiable_helper.dart';
+import 'package:flutter_mk/helper/timer_page.dart';
 import 'package:flutter_mk/models/user_book.dart';
 import 'package:flutter_mk/repositories/read_repository.dart';
 import 'package:flutter_mk/views/read/book_detail_card.dart';
-import 'package:flushbar/flushbar_helper.dart';
 
 class ReadPage extends StatefulWidget {
-  String logId;
+  final String logId;
   final String progress;
   final UserBook userBook;
 
@@ -20,6 +19,23 @@ class ReadPage extends StatefulWidget {
 class _ReadPageState extends State<ReadPage> {
   var pageController = TextEditingController();
   var focusNode = FocusNode();
+  Dependencies dependencies;
+
+  @override
+  void initState() {
+    int initTime = 0;
+    if (widget.userBook.recentRecord?.status == 1)
+      initTime = DateTime.now().millisecondsSinceEpoch -
+          widget.userBook.recentRecord.startAt;
+    dependencies = Dependencies(initTime: initTime);
+    dependencies.stopwatch.start();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +51,9 @@ class _ReadPageState extends State<ReadPage> {
               BookDetailCard(widget.userBook.id),
               SizedBox(
                 height: 200,
+                child: TimerPage(
+                  dependencies: dependencies,
+                ),
               ),
               Row(
                 mainAxisSize: MainAxisSize.max,
@@ -57,7 +76,10 @@ class _ReadPageState extends State<ReadPage> {
                   child: Column(
                     children: <Widget>[
                       Row(
-                        children: <Widget>[Icon(Icons.queue_music), Text("环境音")],
+                        children: <Widget>[
+                          Icon(Icons.queue_music),
+                          Text("环境音")
+                        ],
                       ),
                       //TODO music list
                     ],
@@ -74,7 +96,12 @@ class _ReadPageState extends State<ReadPage> {
                   ),
                   RaisedButton(
                     onPressed: () {
-                      _showPageInput();
+                      _showPageInput(() {
+                        if (dependencies.stopwatch.isRunning)
+                          this.setState(() {
+                            dependencies.stopwatch.stop();
+                          });
+                      });
 //                    String page = pageController.text;
 //                      ReadRepository(context).readOperation(widget.logId, widget.userBook.id, 0, page);
                     },
@@ -89,39 +116,45 @@ class _ReadPageState extends State<ReadPage> {
     );
   }
 
-  Future _showPageInput() async {
-
-    String pageCount ="";
+  Future _showPageInput(VoidCallback callback) async {
+    String pageCount = "";
     await showDialog<String>(
       context: context,
-      child:  _SystemPadding(child:  AlertDialog(
-        contentPadding: const EdgeInsets.all(16.0),
-        content:  Row(
-          children: <Widget>[
-             Expanded(
-              child:  TextField(
-                keyboardType: TextInputType.number  ,
-                onChanged: (value){pageCount=value;},
-                autofocus: true,
-                decoration:  InputDecoration(
-                    labelText: 'Full Name', hintText: 'eg. John Smith'),
-              ),
-            )
+      child: _SystemPadding(
+        child: AlertDialog(
+          contentPadding: const EdgeInsets.all(16.0),
+          content: Row(
+            children: <Widget>[
+              Expanded(
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  onChanged: (value) {
+                    pageCount = value;
+                  },
+                  autofocus: true,
+                  decoration: InputDecoration(
+                      labelText: 'Full Name', hintText: 'eg. John Smith'),
+                ),
+              )
+            ],
+          ),
+          actions: <Widget>[
+            RaisedButton(
+                child: const Text('OPEN'),
+                onPressed: () {
+                  ReadRepository(context)
+                      .readOperation(
+                          widget.logId, widget.userBook.id, 0, pageCount)
+                      .then((value) {
+                    callback();
+                    Navigator.pop(context);
+                  });
+                })
           ],
         ),
-        actions: <Widget>[
-           RaisedButton(
-              child: const Text('OPEN'),
-              onPressed: () {
-                ReadRepository(context).readOperation(widget.logId, widget.userBook.id, 0, pageCount);
-                Navigator.pop(context);
-              })
-        ],
-      ),),
+      ),
     );
   }
-
-
 }
 
 class _SystemPadding extends StatelessWidget {

@@ -33,10 +33,10 @@ class ReadRepository {
 
    Future<List<Book>> fetchBookByIsbn(String isbn) async {
     print("requesting book is $isbn");
-    String path = host + "/read/read/isbn/$isbn";
+    String path = host + "/read/book/isbn/$isbn";
     var response = await request.get(getOption(path));
     List<Book> result = [];
-    for (var value in response.data['data']) {
+    for (var value in response.data["data"]) {
       result.add(Book.fromJsonMap(value));
     }
     return result;

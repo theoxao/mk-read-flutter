@@ -18,10 +18,10 @@ class Dependencies {
       <ValueChanged<ElapsedTime>>[];
   final TextStyle textStyle =
       const TextStyle(fontSize: 90.0, fontFamily: "Bebas Neue");
-  final Stopwatch stopwatch = new Stopwatch();
   final int timerMillisecondsRefreshRate = 1000;
-  int initTime = 0;
-  Dependencies({this.initTime});
+  int startAt = 0;
+  int duration = 0;
+  Dependencies({this.startAt ,this.duration});
 }
 
 class TimerPage extends StatefulWidget {
@@ -70,7 +70,7 @@ class TimerTextState extends State<TimerText> {
 
   @override
   void initState() {
-    milliseconds = dependencies.initTime;
+    milliseconds = dependencies.startAt;
     timer = new Timer.periodic(
         new Duration(milliseconds: dependencies.timerMillisecondsRefreshRate),
         callback);
@@ -85,10 +85,8 @@ class TimerTextState extends State<TimerText> {
   }
 
   void callback(Timer timer) {
-    if (milliseconds !=
-        dependencies.stopwatch.elapsedMilliseconds + dependencies.initTime) {
-      milliseconds =
-          dependencies.stopwatch.elapsedMilliseconds + dependencies.initTime;
+    if (milliseconds != DateTime.now().millisecondsSinceEpoch - dependencies.startAt + dependencies.duration) {
+      milliseconds =  DateTime.now().millisecondsSinceEpoch - dependencies.startAt + dependencies.duration;
       final int seconds = (milliseconds / 1000).truncate();
       final int minutes = (seconds / 60).truncate();
       final int hours = (minutes / 60).truncate();
@@ -147,8 +145,7 @@ class MinutesAndSecondsState extends State<MinutesAndSeconds> {
 
   @override
   void initState() {
-    var milliseconds =
-        dependencies.stopwatch.elapsedMilliseconds + dependencies.initTime;
+    var milliseconds = DateTime.now().millisecondsSinceEpoch - dependencies.startAt + dependencies.duration;
     var seconds = (milliseconds / 1000).truncate();
     minutes = (seconds / 60).truncate();
     hours = (minutes / 60).truncate();
@@ -189,8 +186,7 @@ class HundredsState extends State<Hundreds> {
 
   @override
   void initState() {
-    var milliseconds =
-        dependencies.stopwatch.elapsedMilliseconds + dependencies.initTime;
+    var milliseconds = DateTime.now().millisecondsSinceEpoch - dependencies.startAt + dependencies.duration;
     seconds = (milliseconds / 1000).truncate();
     dependencies.timerListeners.add(onTick);
     super.initState();

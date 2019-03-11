@@ -23,11 +23,11 @@ class _ReadPageState extends State<ReadPage> {
 
   @override
   void initState() {
-    int initTime = 0;
-    if (widget.userBook.recentRecord?.status == 1)
-      initTime = DateTime.now().millisecondsSinceEpoch -
-          widget.userBook.recentRecord.startAt;
-    dependencies = Dependencies(initTime: initTime);
+    int startAt = 0;
+    if (widget.userBook.recentRecord?.status == 1){
+      startAt=widget.userBook.recentRecord?.startAt;
+    }
+    dependencies = Dependencies(startAt: startAt ,duration:widget.userBook.recentRecord?.duration);
     dependencies.stopwatch.start();
     super.initState();
   }
@@ -96,12 +96,7 @@ class _ReadPageState extends State<ReadPage> {
                   ),
                   RaisedButton(
                     onPressed: () {
-                      _showPageInput(() {
-                        if (dependencies.stopwatch.isRunning)
-                          this.setState(() {
-                            dependencies.stopwatch.stop();
-                          });
-                      });
+                      _showPageInput();
 //                    String page = pageController.text;
 //                      ReadRepository(context).readOperation(widget.logId, widget.userBook.id, 0, page);
                     },
@@ -116,7 +111,7 @@ class _ReadPageState extends State<ReadPage> {
     );
   }
 
-  Future _showPageInput(VoidCallback callback) async {
+  Future _showPageInput() async {
     String pageCount = "";
     await showDialog<String>(
       context: context,
@@ -146,7 +141,6 @@ class _ReadPageState extends State<ReadPage> {
                       .readOperation(
                           widget.logId, widget.userBook.id, 0, pageCount)
                       .then((value) {
-                    callback();
                     Navigator.pop(context);
                   });
                 })

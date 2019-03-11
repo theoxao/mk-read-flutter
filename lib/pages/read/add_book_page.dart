@@ -187,7 +187,8 @@ class AddBookState extends State<AddBookPage> {
                           Flexible(
                             child: Card(
                               child: TextField(
-                                controller: _requestBody.controllerMap["author"],
+                                controller:
+                                    _requestBody.controllerMap["author"],
                                 focusNode: _focusNodeList[1],
                                 textAlign: TextAlign.center,
                                 decoration: InputDecoration(
@@ -202,7 +203,8 @@ class AddBookState extends State<AddBookPage> {
                           Flexible(
                             child: Card(
                               child: TextField(
-                                controller: _requestBody.controllerMap["publisher"],
+                                controller:
+                                    _requestBody.controllerMap["publisher"],
                                 focusNode: _focusNodeList[2],
                                 textAlign: TextAlign.center,
                                 decoration: InputDecoration(
@@ -306,12 +308,21 @@ class AddBookState extends State<AddBookPage> {
                       },
                     ),
                     borrowInfo,
+                    RaisedButton(
+                      onPressed: addBook,
+                      child: Text("添加"),
+                    )
                   ],
                 ),
               );
             },
           )),
     );
+  }
+
+
+  void addBook() {
+
   }
 
   void scanPressed() {
@@ -321,9 +332,7 @@ class AddBookState extends State<AddBookPage> {
   Future scan() async {
     try {
       String barCode = await BarcodeScanner.scan();
-      setState(() {
-        this.barCode = barCode;
-      });
+      Navigator.of(context).pop(barCode);
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
         print("permission denied");
@@ -390,4 +399,5 @@ class AddBookState extends State<AddBookPage> {
   void search() {
     Navigator.pushNamed(context, "/search_book");
   }
+
 }

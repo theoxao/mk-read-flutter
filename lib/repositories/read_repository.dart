@@ -5,6 +5,7 @@ import 'package:flutter_mk/models/read_detail_models.dart';
 import 'package:flutter_mk/models/user_book.dart';
 import 'package:flutter_mk/http/request_wrap.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mk/pages/read/add_book_page.dart';
 
 class ReadRepository {
   EventRequest request;
@@ -91,5 +92,9 @@ class ReadRepository {
      String path = "$host/read/read/detail?id=$id";
      Response response = await request.get(getOption(path));
      return UserBook.fromJsonMap(response.data["data"]);
+  }
+
+  Future addBook(RequestBody body){
+
   }
 }

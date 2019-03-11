@@ -3,11 +3,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mk/blocs/read/read_bloc.dart';
+import 'package:flutter_mk/common/commons.dart';
 import 'package:flutter_mk/helper/ensure_visiable_helper.dart';
 import 'package:flutter_mk/models/book.dart';
 import 'package:flutter_umeng_analytics_fork/flutter_umeng_analytics_fork.dart';
-
-import 'package:flutter_mk/common/commons.dart';
 
 class AddBookPage extends StatefulWidget {
   @override
@@ -27,6 +26,28 @@ class RequestBody {
   var refBookId;
   var returnDate;
   var remark;
+
+  List<String> fieldList = [
+    "isbn",
+    "cover",
+    "name",
+    "author",
+    "publisher",
+    "pageCount",
+    "tag",
+    "currentPage",
+    "state",
+    "refBookId",
+    "returnDate",
+    "remark"
+  ];
+  Map<String, TextEditingController> controllerMap = Map();
+
+  RequestBody() {
+    fieldList.forEach((key) {
+      controllerMap[key] = TextEditingController();
+    });
+  }
 }
 
 class AddBookState extends State<AddBookPage> {
@@ -143,11 +164,7 @@ class AddBookState extends State<AddBookPage> {
                       focusNode: _focusNodeList[0],
                       child: Card(
                         child: TextField(
-                          onChanged: (value) {
-                            this.setState(() {
-                              _requestBody.name = value;
-                            });
-                          },
+                          controller: _requestBody.controllerMap["name"],
                           focusNode: _focusNodeList[0],
                           textAlign: TextAlign.center,
                           decoration: InputDecoration(
@@ -170,6 +187,7 @@ class AddBookState extends State<AddBookPage> {
                           Flexible(
                             child: Card(
                               child: TextField(
+                                controller: _requestBody.controllerMap["author"],
                                 focusNode: _focusNodeList[1],
                                 textAlign: TextAlign.center,
                                 decoration: InputDecoration(
@@ -184,6 +202,7 @@ class AddBookState extends State<AddBookPage> {
                           Flexible(
                             child: Card(
                               child: TextField(
+                                controller: _requestBody.controllerMap["publisher"],
                                 focusNode: _focusNodeList[2],
                                 textAlign: TextAlign.center,
                                 decoration: InputDecoration(
@@ -205,6 +224,7 @@ class AddBookState extends State<AddBookPage> {
                       focusNode: _focusNodeList[3],
                       child: Card(
                         child: TextField(
+                          controller: _requestBody.controllerMap["pageCount"],
                           keyboardType: TextInputType.numberWithOptions(),
                           focusNode: _focusNodeList[3],
                           textAlign: TextAlign.center,
@@ -220,6 +240,7 @@ class AddBookState extends State<AddBookPage> {
                       focusNode: _focusNodeList[4],
                       child: Card(
                         child: TextFormField(
+                          controller: _requestBody.controllerMap["tag"],
                           focusNode: _focusNodeList[4],
                           textAlign: TextAlign.center,
                           decoration: InputDecoration(
@@ -318,6 +339,7 @@ class AddBookState extends State<AddBookPage> {
         focusNode: _focusNodeList[5],
         child: Card(
           child: TextField(
+            controller: _requestBody.controllerMap["currentPage"],
             keyboardType: TextInputType.numberWithOptions(),
             focusNode: _focusNodeList[5],
             textAlign: TextAlign.center,
@@ -336,6 +358,7 @@ class AddBookState extends State<AddBookPage> {
             focusNode: _focusNodeList[6],
             child: Card(
               child: TextField(
+                controller: _requestBody.controllerMap["returnDate"],
                 focusNode: _focusNodeList[6],
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
@@ -350,6 +373,7 @@ class AddBookState extends State<AddBookPage> {
             focusNode: _focusNodeList[7],
             child: Card(
               child: TextField(
+                controller: _requestBody.controllerMap["remark"],
                 focusNode: _focusNodeList[7],
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(

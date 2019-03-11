@@ -28,7 +28,6 @@ class _ReadPageState extends State<ReadPage> {
       startAt=widget.userBook.recentRecord?.startAt;
     }
     dependencies = Dependencies(startAt: startAt ,duration:widget.userBook.recentRecord?.duration);
-    dependencies.stopwatch.start();
     super.initState();
   }
 

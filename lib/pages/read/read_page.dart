@@ -23,7 +23,7 @@ class _ReadPageState extends State<ReadPage> {
 
   @override
   void initState() {
-    int startAt = 0;
+    int startAt = DateTime.now().millisecondsSinceEpoch;
     if (widget.userBook.recentRecord?.status == 1){
       startAt=widget.userBook.recentRecord?.startAt;
     }

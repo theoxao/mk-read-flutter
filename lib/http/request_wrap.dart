@@ -11,7 +11,7 @@ class EventRequest {
     try {
       Response response = await Dio(options).get(options.path);
       return response;
-    } on DioError catch (e) {
+    } on DioError {
       MyFlushbarHelper.globalNotify(message: "网络请求出错")..show(context);
       return null;
     }
@@ -21,7 +21,7 @@ class EventRequest {
     try {
       Response response = await Dio(options).post(options.path);
       return response;
-    } on DioError catch (e) {
+    } on DioError {
       MyFlushbarHelper.globalNotify(message:"网络请求出错")..show(context);
       return Response(data:[]);
     }

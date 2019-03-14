@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-String get host => "http://www.theoxao.com:8888";
+String get host => "http://api.theoxao.com:8888";
 
 
 Options get getOptions {

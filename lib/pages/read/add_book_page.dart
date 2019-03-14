@@ -6,6 +6,7 @@ import 'package:flutter_mk/blocs/read/read_bloc.dart';
 import 'package:flutter_mk/common/commons.dart';
 import 'package:flutter_mk/helper/ensure_visiable_helper.dart';
 import 'package:flutter_mk/models/user_book.dart';
+import 'package:flutter_mk/pages/read/select_book_page.dart';
 
 class AddBookPage extends StatefulWidget {
   @override
@@ -55,15 +56,14 @@ class AddBookState extends State<AddBookPage> {
   List<FocusNode> _focusNodeList = [];
   int readStatus = 3;
   bool borrowed = false;
-  BookSearchBloc searchBloc;
+
   SelectedBookBLoc selectedBloc;
 
   RequestBody _requestBody = RequestBody();
 
   @override
   void initState() {
-    searchBloc = BookSearchBloc(barCode);
-    selectedBloc =SelectedBookBLoc();
+    selectedBloc = SelectedBookBLoc();
     super.initState();
     for (var i = 0; i < 10; i++) {
       _focusNodeList.add(FocusNode());
@@ -72,7 +72,6 @@ class AddBookState extends State<AddBookPage> {
 
   @override
   void dispose() {
-    searchBloc.close();
     selectedBloc.close();
     super.dispose();
   }
@@ -87,10 +86,10 @@ class AddBookState extends State<AddBookPage> {
       body: SafeArea(
           top: false,
           bottom: false,
-          child: StreamBuilder(
+          child: StreamBuilder<UserBook>(
             stream: selectedBloc.stream,
             builder: (context, AsyncSnapshot<UserBook> snapshot) {
-              UserBook book=UserBook();
+              UserBook book = UserBook();
               if (snapshot.hasData) book = snapshot.data;
               return SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -141,7 +140,7 @@ class AddBookState extends State<AddBookPage> {
                               width: coverWidth,
                               height: coverHeight,
                               fit: BoxFit.fill,
-                              imageUrl: book!=null?book.cover:"",
+                              imageUrl: book != null ? book.cover : "",
                               placeholder: Image(
                                 image: AssetImage("image/ic_add_cover.png"),
                                 width: coverWidth,
@@ -318,10 +317,7 @@ class AddBookState extends State<AddBookPage> {
     );
   }
 
-
-  void addBook() {
-
-  }
+  void addBook() {}
 
   void scanPressed() {
     scan();
@@ -330,8 +326,9 @@ class AddBookState extends State<AddBookPage> {
   Future scan() async {
     try {
       String barCode = await BarcodeScanner.scan();
-      searchBloc.initData(barCode);
-//      Navigator.of(context).pop(barCode);
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+        return SelectBookPage(isbn: barCode);
+      }));
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
         print("permission denied");
@@ -398,5 +395,4 @@ class AddBookState extends State<AddBookPage> {
   void search() {
     Navigator.pushNamed(context, "/search_book");
   }
-
 }

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_mk/common/commons.dart';
 import 'package:flutter_mk/models/book.dart';
 import 'package:flutter_mk/models/read_detail_models.dart';
+import 'package:flutter_mk/models/shelf_models.dart';
 import 'package:flutter_mk/models/user_book.dart';
 import 'package:flutter_mk/http/request_wrap.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +13,15 @@ class ReadRepository {
 
   ReadRepository(BuildContext context) :this.request=EventRequest(context);
 
-   Future<List<dynamic>> fetchTagList() async {
+   Future<List<Tag>> fetchTagList() async {
     print("requesting tag list");
     String path = host + "/read/tag/list";
     var response = await request.get(getOption(path));
-    return response.data['data'];
+    List<Tag> list  =List();
+    for( var tag in response.data['data']){
+      list.add(Tag.fromJson(tag));
+    }
+    return list;
   }
 
    Future<List<UserBook>> fetchShelfBook(String tag) async {

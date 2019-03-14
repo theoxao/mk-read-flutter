@@ -7,12 +7,13 @@ import '../models/user_book.dart';
 import 'package:flutter_umeng_analytics_fork/flutter_umeng_analytics_fork.dart';
 
 class ShelfWidget extends StatefulWidget {
+
   @override
   State<StatefulWidget> createState() => ShelfState();
 }
 
 class ShelfState extends State<ShelfWidget>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   TagListBloc tagListBloc = TagListBloc();
   List<UserBook> books = [];
   TabController _tabController;

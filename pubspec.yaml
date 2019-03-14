@@ -34,7 +34,7 @@ dependencies:
   font_awesome_flutter: 8.2.0   #fa
   lazy_load_scrollview: 0.0.2
   fluro: 1.4.0  # route framework  see `https://pub.dartlang.org/packages/fluro`
-  flutter_umeng_analytics_fork: 0.0.3 # umeng app statistic see `https://pub.dartlang.org/packages/flutter_umeng_analytics`
+#  flutter_umeng_analytics_fork: 0.0.3 # umeng app statistic see `https://pub.dartlang.org/packages/flutter_umeng_analytics`
   platform: 2.2.0
 #  flutter_screenutil: ^0.4.6
   #  jpush_flutter: 0.0.9

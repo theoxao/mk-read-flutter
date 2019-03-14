@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mk/pages/read/read_page.dart';
 import 'package:flutter_mk/pages/read/search_book_page.dart';
-import 'package:flutter_umeng_analytics_fork/flutter_umeng_analytics_fork.dart';
 import 'package:platform/platform.dart';
 import 'common/commons.dart';
 import 'package:flutter_mk/pages/read/add_book_page.dart';
@@ -10,12 +9,12 @@ import 'package:flutter_mk/pages/read/home_page.dart';
 final Platform platform = const LocalPlatform();
 
 void main() {
-  if (platform.isAndroid)
-    UMengAnalytics.init('5bf8bed4f1f55696fc000403',
-        policy: Policy.BATCH, encrypt: true, reportCrash: false);
-  else if (platform.isIOS)
-    UMengAnalytics.init('5c3d942cf1f556b87c0010ab',
-        policy: Policy.BATCH, encrypt: true, reportCrash: false);
+//  if (platform.isAndroid)
+//    UMengAnalytics.init('5bf8bed4f1f55696fc000403',
+//        policy: Policy.BATCH, encrypt: true, reportCrash: false);
+//  else if (platform.isIOS)
+//    UMengAnalytics.init('5c3d942cf1f556b87c0010ab',
+//        policy: Policy.BATCH, encrypt: true, reportCrash: false);
   runApp(App());
 }
 
@@ -28,13 +27,11 @@ class AppState extends State<App> {
   @override
   void initState() {
     super.initState();
-    UMengAnalytics.beginPageView("init");
   }
 
   @override
   void dispose() {
     super.dispose();
-    UMengAnalytics.endPageView("init");
   }
 
   ThemeData get theme {

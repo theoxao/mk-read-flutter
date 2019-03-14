@@ -8,7 +8,7 @@ class UserBook {
   String userId;
   String name;
   String isbn;
-  String cover;
+  String cover ="";
   String author;
   String publisher;
   int pageCount;
@@ -21,7 +21,10 @@ class UserBook {
   RefBook refBook;
   RecentRecord recentRecord;
 
-  UserBook.fromJsonMap(Map<String, dynamic> map): 
+
+  UserBook();
+
+  UserBook.fromJsonMap(Map<String, dynamic> map):
     id = map["id"],
     refBookId = map["refBookId"],
     userId = map["userId"],

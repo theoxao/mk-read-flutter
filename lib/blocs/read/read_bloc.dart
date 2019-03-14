@@ -21,10 +21,7 @@ class UserBookDetailBloc extends BaseBloc<UserBook> {
 
 
 class BookSearchBloc extends BaseBloc<List<Book>>{
-  BookSearchBloc(String barCode){
-    initData(barCode);
-  }
-
+  BookSearchBloc(String barCode);
 
   void initData(String barCode) async{
     var books = await ReadRepository(context).fetchBookByIsbn(barCode);
@@ -32,6 +29,10 @@ class BookSearchBloc extends BaseBloc<List<Book>>{
   }
 }
 
-class SelectedBookBLoc extends BaseBloc<Book>{
-  SelectedBookBLoc bloc = SelectedBookBLoc();
+class SelectedBookBLoc extends BaseBloc<UserBook>{
+  UserBook book =UserBook();
+
+  SelectedBookBLoc(){
+    sink.add(book);
+  }
 }

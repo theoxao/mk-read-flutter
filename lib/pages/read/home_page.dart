@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_umeng_analytics_fork/flutter_umeng_analytics_fork.dart';
 import 'package:redux/redux.dart';
 
 import 'package:flutter_mk/common/commons.dart';
@@ -58,12 +57,10 @@ class HomeState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    UMengAnalytics.beginPageView("home");
   }
 
   @override
   void dispose() {
     super.dispose();
-    UMengAnalytics.endPageView("home");
   }
 }

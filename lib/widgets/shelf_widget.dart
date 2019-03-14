@@ -4,7 +4,6 @@ import 'package:flutter_mk/models/shelf_models.dart';
 import 'package:flutter_mk/pages/read/tag_manage_page.dart';
 import 'package:flutter_mk/views/read/shelf_book_view.dart';
 import '../models/user_book.dart';
-import 'package:flutter_umeng_analytics_fork/flutter_umeng_analytics_fork.dart';
 
 class ShelfWidget extends StatefulWidget {
 
@@ -22,7 +21,6 @@ class ShelfState extends State<ShelfWidget>
   void initState() {
     super.initState();
     tagListBloc.bindContext(context);
-    UMengAnalytics.beginPageView("shelf");
   }
 
   Widget getByTag(String tag) {
@@ -120,7 +118,6 @@ class ShelfState extends State<ShelfWidget>
   void dispose() {
     _tabController.dispose();
     super.dispose();
-    UMengAnalytics.endPageView("shelf");
   }
 
   void fabPressed() {

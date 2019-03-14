@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mk/blocs/read/shlef_bloc.dart';
-import 'package:flutter_mk/common/commons.dart';
+import 'package:flutter_mk/models/shelf_models.dart';
 import 'package:flutter_mk/pages/read/tag_manage_page.dart';
-import 'package:flutter_mk/repositories/read_repository.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:flutter_mk/views/read/shelf_book_view.dart';
 import '../models/user_book.dart';
 import 'package:flutter_umeng_analytics_fork/flutter_umeng_analytics_fork.dart';
@@ -15,14 +13,6 @@ class ShelfWidget extends StatefulWidget {
 
 class ShelfState extends State<ShelfWidget>
     with SingleTickerProviderStateMixin {
-  var tabs = const [
-    "全部",
-    "工具",
-    "课外书",
-    "其他",
-    "未知",
-    "测试",
-  ];
   TagListBloc tagListBloc = TagListBloc();
   List<UserBook> books = [];
   TabController _tabController;
@@ -31,7 +21,6 @@ class ShelfState extends State<ShelfWidget>
   void initState() {
     super.initState();
     tagListBloc.bindContext(context);
-    _tabController = TabController(length: tabs.length, vsync: this);
     UMengAnalytics.beginPageView("shelf");
   }
 
@@ -67,51 +56,62 @@ class ShelfState extends State<ShelfWidget>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 1,
-        backgroundColor: Colors.white,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            Expanded(
-              child: TabBar(
-                  controller: _tabController,
-                  isScrollable: true,
-                  labelColor: Colors.black,
-                  tabs: tabs.map((s) {
-                    return Tab(
-                      text: s,
-                    );
-                  }).toList()),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) {
-                  return TagManagePage();
-                }));
-              },
-              child: Center(
-                child: Icon(
-                  Icons.add,
-                  color: Colors.black,
-                ),
+    return StreamBuilder<List<Tag>>(
+      stream: tagListBloc.stream,
+      builder: (context, AsyncSnapshot<List<Tag>> snapshot) {
+        if (snapshot.hasData) {
+          List<Tag> tabs = snapshot.data;
+          _tabController = TabController(length: tabs.length, vsync: this);
+          return Scaffold(
+            appBar: AppBar(
+              elevation: 1,
+              backgroundColor: Colors.white,
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Expanded(
+                    child: TabBar(
+                        controller: _tabController,
+                        isScrollable: true,
+                        labelColor: Colors.black,
+                        tabs: tabs.map((s) {
+                          return Tab(
+                            text: s.tag,
+                          );
+                        }).toList()),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
+                        return TagManagePage();
+                      }));
+                    },
+                    child: Center(
+                      child: Icon(
+                        Icons.add,
+                        color: Colors.black,
+                      ),
+                    ),
+                  )
+                ],
               ),
-            )
-          ],
-        ),
-      ),
-      body: TabBarView(
-          controller: _tabController,
-          children: tabs.map((s) {
-            return getByTag(s);
-          }).toList()),
-      floatingActionButton: FloatingActionButton(
-        onPressed: fabPressed,
-        child: Icon(Icons.add),
-      ),
+            ),
+            body: TabBarView(
+                controller: _tabController,
+                children: tabs.map((s) {
+                  return getByTag(s.tag);
+                }).toList()),
+            floatingActionButton: FloatingActionButton(
+              onPressed: fabPressed,
+              child: Icon(Icons.add),
+            ),
+          );
+        } else {
+          return Container();
+        }
+      },
     );
   }
 

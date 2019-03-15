@@ -18,21 +18,27 @@ class TagListBloc extends BaseBloc<List<Tag>> {
 }
 
 class ShelfBookBloc extends BaseBloc<List<UserBook>> {
-	
-	List<UserBook> list ;
+  List<UserBook> list;
 
-	ShelfBookBloc(String tag){
-		initData(tag);
-	}
+  ShelfBookBloc(String tag) {
+    initData(tag);
+  }
 
-	void initData(String tag) async{
-		var list = await ReadRepository(context).fetchShelfBook(tag);
-		this.list = list;
-		sink.add(list);
-	}
+  void initData(String tag) async {
+    var list = await ReadRepository(context).fetchShelfBook(tag);
+    this.list = list;
+    sink.add(list);
+  }
 
-	void refresh(String tag){
-		initData(tag);
-	}
+  void refresh(String tag) {
+    initData(tag);
+  }
+}
 
+class RecommandTagBloc extends BaseBloc<List<String>> {
+  List<String> list = ["晨读", "科幻", "小说", "小说", "小说", "小说", "小说", "小说"];
+
+  RecommandTagBloc() {
+    sink.add(list);
+  }
 }

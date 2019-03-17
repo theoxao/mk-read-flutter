@@ -25,7 +25,7 @@ dependencies:
   common_utils: 1.0.9
   fluwx: 0.5.5
   shared_preferences: 0.4.3
-  charts_flutter: 0.5.0
+  charts_flutter: 0.6.0
   cached_network_image: 0.5.1
   liquid_pull_to_refresh: 1.0.2
   flutter_image_compress: 0.2.3
@@ -45,6 +45,7 @@ dependencies:
   flutter_spinkit: ^3.1.0
   flustars: 0.1.9
   flushbar: 1.2.4
+  super_tooltip: 0.9.0
 
 dev_dependencies:
   flutter_test:

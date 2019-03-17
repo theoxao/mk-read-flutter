@@ -24,10 +24,11 @@ class _ReadPageState extends State<ReadPage> {
   @override
   void initState() {
     int startAt = 0;
-    if (widget.userBook.recentRecord?.status == 1){
-      startAt=widget.userBook.recentRecord?.startAt;
+    if (widget.userBook.recentRecord?.status == 1) {
+      startAt = widget.userBook.recentRecord?.startAt;
     }
-    dependencies = Dependencies(startAt: startAt ,duration:widget.userBook.recentRecord?.duration);
+    dependencies = Dependencies(
+        startAt: startAt, duration: widget.userBook.recentRecord?.duration);
     super.initState();
   }
 
@@ -113,40 +114,41 @@ class _ReadPageState extends State<ReadPage> {
   Future _showPageInput() async {
     String pageCount = "";
     await showDialog<String>(
-      context: context,
-      child: _SystemPadding(
-        child: AlertDialog(
-          contentPadding: const EdgeInsets.all(16.0),
-          content: Row(
-            children: <Widget>[
-              Expanded(
-                child: TextField(
-                  keyboardType: TextInputType.number,
-                  onChanged: (value) {
-                    pageCount = value;
-                  },
-                  autofocus: true,
-                  decoration: InputDecoration(
-                      labelText: 'Full Name', hintText: 'eg. John Smith'),
-                ),
-              )
-            ],
-          ),
-          actions: <Widget>[
-            RaisedButton(
-                child: const Text('OPEN'),
-                onPressed: () {
-                  ReadRepository(context)
-                      .readOperation(
-                          widget.logId, widget.userBook.id, 0, pageCount)
-                      .then((value) {
-                    Navigator.pop(context);
-                  });
-                })
-          ],
-        ),
-      ),
-    );
+        context: context,
+        builder: (context) {
+          return _SystemPadding(
+            child: AlertDialog(
+              contentPadding: const EdgeInsets.all(16.0),
+              content: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: TextField(
+                      keyboardType: TextInputType.number,
+                      onChanged: (value) {
+                        pageCount = value;
+                      },
+                      autofocus: true,
+                      decoration: InputDecoration(
+                          labelText: 'Full Name', hintText: 'eg. John Smith'),
+                    ),
+                  )
+                ],
+              ),
+              actions: <Widget>[
+                RaisedButton(
+                    child: const Text('OPEN'),
+                    onPressed: () {
+                      ReadRepository(context)
+                          .readOperation(
+                              widget.logId, widget.userBook.id, 0, pageCount)
+                          .then((value) {
+                        Navigator.pop(context);
+                      });
+                    })
+              ],
+            ),
+          );
+        });
   }
 }
 

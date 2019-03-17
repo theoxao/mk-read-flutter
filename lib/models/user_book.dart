@@ -1,3 +1,4 @@
+import 'package:flutter_mk/models/book.dart';
 import 'package:flutter_mk/models/ref_book.dart';
 import 'package:flutter_mk/models/recent_record.dart';
 

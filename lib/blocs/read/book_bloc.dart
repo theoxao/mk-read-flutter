@@ -1,7 +1,6 @@
 
 import 'package:flutter_mk/blocs/base_bloc.dart';
 import 'package:flutter_mk/models/book.dart';
-import 'package:flutter_mk/models/user_book.dart';
 import 'package:flutter_mk/repositories/read_repository.dart';
 
 class BookSearchBloc extends BaseBloc<List<Book>>{
@@ -13,8 +12,8 @@ class BookSearchBloc extends BaseBloc<List<Book>>{
   }
 }
 
-class SelectedBookBLoc extends BaseBloc<UserBook>{
-  UserBook book =UserBook();
+class SelectedBookBLoc extends BaseBloc<Book>{
+  Book book =Book();
 
   SelectedBookBLoc(){
     sink.add(book);

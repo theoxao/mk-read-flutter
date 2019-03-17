@@ -1,13 +1,15 @@
 class Book {
-  String id;
-  String name;
-  String author;
-  String introduction;
-  String isbn;
-  String pageCount;
-  String publisher;
-  String cover;
-  int state;
+  String id ="";
+  String name ="";
+  String author ="";
+  String introduction ="";
+  String isbn="";
+  String pageCount="";
+  String publisher="";
+  String cover="";
+  int state = 3;
+
+  Book();
 
   Book.fromJsonMap(Map<String, dynamic> map)
       : id = map["id"],

@@ -1,3 +1,4 @@
+import 'package:common_utils/common_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_mk/common/commons.dart';
 import 'package:flutter_mk/models/book.dart';
@@ -11,20 +12,20 @@ import 'package:flutter_mk/pages/read/add_book_page.dart';
 class ReadRepository {
   EventRequest request;
 
-  ReadRepository(BuildContext context) :this.request=EventRequest(context);
+  ReadRepository(BuildContext context) : this.request = EventRequest(context);
 
-   Future<List<Tag>> fetchTagList() async {
+  Future<List<Tag>> fetchTagList() async {
     print("requesting tag list");
     String path = host + "/read/tag/list";
     var response = await request.get(getOption(path));
-    List<Tag> list  =List();
-    for( var tag in response.data['data']){
+    List<Tag> list = List();
+    for (var tag in response.data['data']) {
       list.add(Tag.fromJson(tag));
     }
     return list;
   }
 
-   Future<List<UserBook>> fetchShelfBook(String tag) async {
+  Future<List<UserBook>> fetchShelfBook(String tag) async {
     print("requesting tag is $tag");
     if (tag == "全部") tag = "";
     String path = host + "/read/shelf/list?tag=$tag";
@@ -37,10 +38,11 @@ class ReadRepository {
     return result;
   }
 
-   Future<List<Book>> fetchBookByIsbn(String isbn) async {
+  Future<List<Book>> fetchBookByIsbn(String isbn) async {
     print("requesting book is $isbn");
     String path = host + "/read/book/isbn/$isbn";
     var response = await request.get(getOption(path));
+    print(response.data);
     List<Book> result = [];
     for (var value in response.data["data"]) {
       result.add(Book.fromJsonMap(value));
@@ -48,7 +50,7 @@ class ReadRepository {
     return result;
   }
 
-   Future fetchReadStat(String id) async {
+  Future fetchReadStat(String id) async {
     print("requesting read stat");
     String path = host + "/read/read/read_stat?id=$id";
     var response = await request.get(getOption(path));
@@ -56,11 +58,17 @@ class ReadRepository {
     return response.data['data'];
   }
 
-   Future<List<ReadProgress>> fetchReadProgress(
-      String id, String offsetId, int size) async {
+  Future<List<ReadProgress>> fetchReadProgress(
+    String id, {
+    String offsetId,
+    int size,
+  }) async {
     print("requesting read progress id $id, offsetId $offsetId, size $size");
-    String path =
-        host + "/read/read/read_log?id=$id&offsetId=$offsetId&size=$size";
+    if (size == null) size = 0;
+    String path = host + "/read/read/read_log?id=$id&size=$size";
+    if (ObjectUtil.isNotEmpty(offsetId)) {
+      path = path + "&offsetId=$offsetId";
+    }
     var response = await request.get(getOption(path));
     List<ReadProgress> list = [];
     for (var value in response.data['data']) {
@@ -69,7 +77,7 @@ class ReadRepository {
     return list;
   }
 
-   Future<List<ReadExcerpt>> fetchReadExcerpt(
+  Future<List<ReadExcerpt>> fetchReadExcerpt(
       String id, int page, int size) async {
     print("request read excerpt id $id");
     String path = host + "/read/excerpt/index?bookId=$id&page=$page&size=$size";
@@ -93,13 +101,11 @@ class ReadRepository {
     return response.data["data"]["id"];
   }
 
-  Future<UserBook> fetchBookDetail(String id ) async{
-     String path = "$host/read/read/detail?id=$id";
-     Response response = await request.get(getOption(path));
-     return UserBook.fromJsonMap(response.data["data"]);
+  Future<UserBook> fetchBookDetail(String id) async {
+    String path = "$host/read/read/detail?id=$id";
+    Response response = await request.get(getOption(path));
+    return UserBook.fromJsonMap(response.data["data"]);
   }
 
-  Future addBook(RequestBody body){
-
-  }
+  Future addBook(RequestBody body) {}
 }

@@ -3,21 +3,29 @@ import 'package:flutter_mk/models/stat_models.dart';
 import 'package:flutter_mk/repositories/statistic_repository.dart';
 
 class StatBloc extends BaseBloc<List<Coordinate>> {
-  static final StatBloc bloc = StatBloc._internal();
+  String refBook;
 
-  StatBloc._internal() {
+  StatBloc._internal(refBook) {
+    refBook = refBook;
     sink.add(List());
-    initData();
+    initData(refBook);
   }
 
-  factory StatBloc() {
-    return bloc;
+  factory StatBloc({String refBook}) {
+    return StatBloc._internal(refBook);
   }
 
   List<Coordinate> dataList = List();
 
-  void initData() async {
-    var list = await StatRepository(context).fetchStat();
+  void initData(String refBook) async {
+    var list = await StatRepository(context).fetchStat("0", refBook: refBook);
+    this.dataList = list;
+    print(list.toString());
+    sink.add(list);
+  }
+
+  void changeType(String type) async {
+    var list = await StatRepository(context).fetchStat(type, refBook: refBook);
     this.dataList = list;
     sink.add(list);
   }

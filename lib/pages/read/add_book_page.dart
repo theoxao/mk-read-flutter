@@ -1,11 +1,14 @@
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mk/blocs/read/book_bloc.dart';
+import 'package:flutter_mk/blocs/read/shlef_bloc.dart';
 import 'package:flutter_mk/common/commons.dart';
 import 'package:flutter_mk/helper/ensure_visiable_helper.dart';
-import 'package:flutter_mk/models/user_book.dart';
+import 'package:flutter_mk/models/book.dart';
+import 'package:flutter_mk/models/shelf_models.dart';
 import 'package:flutter_mk/pages/read/select_book_page.dart';
 
 class AddBookPage extends StatefulWidget {
@@ -56,10 +59,28 @@ class AddBookState extends State<AddBookPage> {
   List<FocusNode> _focusNodeList = [];
   int readStatus = 3;
   bool borrowed = false;
+  String returnDate = "";
 
   SelectedBookBLoc selectedBloc;
 
   RequestBody _requestBody = RequestBody();
+
+  coverImage(String cover) {
+    if (ObjectUtil.isNotEmpty(cover)) {
+      return Image.network(
+        cover,
+        width: coverWidth,
+        height: coverHeight,
+        fit: BoxFit.cover,
+      );
+    } else {
+      return Image.asset(
+        "image/ic_add_cover.png",
+        width: coverWidth,
+        height: coverHeight,
+      );
+    }
+  }
 
   @override
   void initState() {
@@ -86,11 +107,17 @@ class AddBookState extends State<AddBookPage> {
       body: SafeArea(
           top: false,
           bottom: false,
-          child: StreamBuilder<UserBook>(
+          child: StreamBuilder<Book>(
             stream: selectedBloc.stream,
-            builder: (context, AsyncSnapshot<UserBook> snapshot) {
-              UserBook book = UserBook();
+            builder: (context, AsyncSnapshot<Book> snapshot) {
+              Book book = Book();
               if (snapshot.hasData) book = snapshot.data;
+
+              print(book.cover);
+              _requestBody.controllerMap["name"].text = book.name;
+              _requestBody.controllerMap["author"].text = book.author;
+              _requestBody.controllerMap["publisher"].text = book.publisher;
+              _requestBody.controllerMap["pageCount"].text = book.pageCount;
               return SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Column(
@@ -136,17 +163,7 @@ class AddBookState extends State<AddBookPage> {
                       children: <Widget>[
                         GestureDetector(
                           child: Card(
-                            child: CachedNetworkImage(
-                              width: coverWidth,
-                              height: coverHeight,
-                              fit: BoxFit.fill,
-                              imageUrl: book != null ? book.cover : "",
-                              placeholder: Image(
-                                image: AssetImage("image/ic_add_cover.png"),
-                                width: coverWidth,
-                                height: coverHeight,
-                              ),
-                            ),
+                            child: coverImage(book.cover),
                           ),
                           onTap: () {
                             print("//TODO");
@@ -185,7 +202,7 @@ class AddBookState extends State<AddBookPage> {
                             child: Card(
                               child: TextField(
                                 controller:
-                                    _requestBody.controllerMap["author"],
+                                _requestBody.controllerMap["author"],
                                 focusNode: _focusNodeList[1],
                                 textAlign: TextAlign.center,
                                 decoration: InputDecoration(
@@ -201,7 +218,7 @@ class AddBookState extends State<AddBookPage> {
                             child: Card(
                               child: TextField(
                                 controller:
-                                    _requestBody.controllerMap["publisher"],
+                                _requestBody.controllerMap["publisher"],
                                 focusNode: _focusNodeList[2],
                                 textAlign: TextAlign.center,
                                 decoration: InputDecoration(
@@ -238,7 +255,8 @@ class AddBookState extends State<AddBookPage> {
                     EnsureVisibleWhenFocused(
                       focusNode: _focusNodeList[4],
                       child: Card(
-                        child: TextFormField(
+                        child: TextField(
+                          onTap: _selectTag,
                           controller: _requestBody.controllerMap["tag"],
                           focusNode: _focusNodeList[4],
                           textAlign: TextAlign.center,
@@ -327,7 +345,7 @@ class AddBookState extends State<AddBookPage> {
     try {
       String barCode = await BarcodeScanner.scan();
       Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-        return SelectBookPage(isbn: barCode);
+        return SelectBookPage(isbn: barCode, bloc: selectedBloc);
       }));
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
@@ -338,59 +356,112 @@ class AddBookState extends State<AddBookPage> {
     }
   }
 
-  Widget get progressWidget => Offstage(
-      offstage: readStatus != 1,
-      child: EnsureVisibleWhenFocused(
-        focusNode: _focusNodeList[5],
-        child: Card(
-          child: TextField(
-            controller: _requestBody.controllerMap["currentPage"],
-            keyboardType: TextInputType.numberWithOptions(),
+  Widget get progressWidget =>
+      Offstage(
+          offstage: readStatus != 1,
+          child: EnsureVisibleWhenFocused(
             focusNode: _focusNodeList[5],
-            textAlign: TextAlign.center,
-            decoration: InputDecoration(
-                labelText: "当前页数",
-                border: OutlineInputBorder(
-                    borderSide: BorderSide(width: 0, style: BorderStyle.none))),
+            child: Card(
+              child: TextField(
+                controller: _requestBody.controllerMap["currentPage"],
+                keyboardType: TextInputType.numberWithOptions(),
+                focusNode: _focusNodeList[5],
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                    labelText: "当前页数",
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide(width: 0, style: BorderStyle
+                            .none))),
+              ),
+            ),
+          ));
+
+  Widget get borrowInfo {
+    return Offstage(
+      offstage: !borrowed,
+      child: Column(children: <Widget>[
+        EnsureVisibleWhenFocused(
+          focusNode: _focusNodeList[6],
+          child: Card(
+            child: TextField(
+              controller: _requestBody.controllerMap["returnDate"],
+              focusNode: _focusNodeList[6],
+              onTap: _showDatePicker,
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                  labelText: "归还时间",
+                  border: OutlineInputBorder(
+                      borderSide:
+                      BorderSide(width: 0, style: BorderStyle.none))),
+            ),
           ),
         ),
-      ));
+        EnsureVisibleWhenFocused(
+          focusNode: _focusNodeList[7],
+          child: Card(
+            child: TextField(
+              controller: _requestBody.controllerMap["remark"],
+              focusNode: _focusNodeList[7],
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                  labelText: "备注",
+                  border: OutlineInputBorder(
+                      borderSide:
+                      BorderSide(width: 0, style: BorderStyle.none))),
+            ),
+          ),
+        ),
+      ]),
+    );
+  }
 
-  Widget get borrowInfo => Offstage(
-        offstage: !borrowed,
-        child: Column(children: <Widget>[
-          EnsureVisibleWhenFocused(
-            focusNode: _focusNodeList[6],
-            child: Card(
-              child: TextField(
-                controller: _requestBody.controllerMap["returnDate"],
-                focusNode: _focusNodeList[6],
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                    labelText: "归还时间",
-                    border: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(width: 0, style: BorderStyle.none))),
-              ),
-            ),
-          ),
-          EnsureVisibleWhenFocused(
-            focusNode: _focusNodeList[7],
-            child: Card(
-              child: TextField(
-                controller: _requestBody.controllerMap["remark"],
-                focusNode: _focusNodeList[7],
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                    labelText: "备注",
-                    border: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(width: 0, style: BorderStyle.none))),
-              ),
-            ),
-          ),
-        ]),
-      );
+  void _selectTag() async {
+    TagListBloc bloc = TagListBloc();
+    _focusNodeList[4].unfocus();
+    await showDialog(
+        context: context,
+        builder: (context) {
+          return StreamBuilder(
+            stream: bloc.stream,
+            builder: (context, AsyncSnapshot<List<Tag>> snapshot) {
+              if(snapshot.hasData && snapshot.data.length>0){
+                var list = snapshot.data;
+                return Column(
+                  children: list.map((tag){
+                    return Text(tag.tag);
+                  }).toList(),
+                );
+              }
+              else return Container();
+            },
+          );
+        }
+    );
+  }
+
+  void _showDatePicker() async {
+    var now = DateTime
+        .now()
+        .millisecondsSinceEpoch;
+    var threeMonth = now + 7776000000;
+    DateTime initDate;
+    var preSelected = _requestBody.controllerMap["returnDate"].text;
+    if (ObjectUtil.isNotEmpty(preSelected)) {
+      initDate = DateUtil.getDateTime(preSelected);
+    } else {
+      initDate = DateTime.fromMillisecondsSinceEpoch(now + 25 * 3600 * 1000);
+    }
+
+    var date = await showDatePicker(
+      context: context,
+      initialDate: initDate,
+      firstDate: DateTime.now(),
+      lastDate: DateTime.fromMillisecondsSinceEpoch(threeMonth),
+    );
+    _focusNodeList[6].unfocus();
+    _requestBody.controllerMap["returnDate"].text =
+        DateUtil.getDateStrByDateTime(date, format: DateFormat.YEAR_MONTH_DAY);
+  }
 
   void search() {
     Navigator.pushNamed(context, "/search_book");

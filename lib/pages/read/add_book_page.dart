@@ -2,7 +2,7 @@ import 'package:barcode_scan/barcode_scan.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_mk/blocs/read/read_bloc.dart';
+import 'package:flutter_mk/blocs/read/book_bloc.dart';
 import 'package:flutter_mk/common/commons.dart';
 import 'package:flutter_mk/helper/ensure_visiable_helper.dart';
 import 'package:flutter_mk/models/user_book.dart';

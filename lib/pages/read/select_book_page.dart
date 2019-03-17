@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mk/blocs/read/read_bloc.dart';
+import 'package:flutter_mk/blocs/read/book_bloc.dart';
 import 'package:flutter_mk/models/book.dart';
 
 class SelectBookPage extends StatefulWidget {

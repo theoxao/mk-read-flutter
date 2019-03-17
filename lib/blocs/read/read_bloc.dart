@@ -1,5 +1,6 @@
 import 'package:flutter_mk/blocs/base_bloc.dart';
 import 'package:flutter_mk/models/book.dart';
+import 'package:flutter_mk/models/read_detail_models.dart';
 import 'package:flutter_mk/models/user_book.dart';
 import 'package:flutter_mk/repositories/read_repository.dart';
 
@@ -20,19 +21,14 @@ class UserBookDetailBloc extends BaseBloc<UserBook> {
 }
 
 
-class BookSearchBloc extends BaseBloc<List<Book>>{
-  BookSearchBloc(String barCode);
 
-  void initData(String barCode) async{
-    var books = await ReadRepository(context).fetchBookByIsbn(barCode);
-    sink.add(books);
-  }
+class ReadProgressBloc extends BaseBloc<List<ReadProgress>>{
+
+  List<ReadProgress> list;
+
+ReadProgressBloc(){
+  
 }
 
-class SelectedBookBLoc extends BaseBloc<UserBook>{
-  UserBook book =UserBook();
 
-  SelectedBookBLoc(){
-    sink.add(book);
-  }
 }

@@ -17,13 +17,13 @@ class EventRequest {
     }
   }
 
-  Future<Response> post(Options options) async {
+  Future<Response> post(Options options, {dynamic data}) async {
     try {
-      Response response = await Dio(options).post(options.path);
+      Response response = await Dio(options).post(options.path, data: data);
       return response;
     } on DioError catch (e) {
-      MyFlushbarHelper.globalNotify(message:"网络请求出错")..show(context);
-      return Response(data:[]);
+      MyFlushbarHelper.globalNotify(message: "网络请求出错")..show(context);
+      return Response(data: []);
     }
   }
 }

@@ -60,6 +60,7 @@ class AddBookState extends State<AddBookPage> {
   int readStatus = 3;
   bool borrowed = false;
   String returnDate = "";
+  String refBookId;
 
   SelectedBookBLoc selectedBloc;
 
@@ -112,7 +113,7 @@ class AddBookState extends State<AddBookPage> {
             builder: (context, AsyncSnapshot<Book> snapshot) {
               Book book = Book();
               if (snapshot.hasData) book = snapshot.data;
-
+              refBookId =book.id;
               print(book.cover);
               _requestBody.controllerMap["name"].text = book.name;
               _requestBody.controllerMap["author"].text = book.author;
@@ -202,7 +203,7 @@ class AddBookState extends State<AddBookPage> {
                             child: Card(
                               child: TextField(
                                 controller:
-                                _requestBody.controllerMap["author"],
+                                    _requestBody.controllerMap["author"],
                                 focusNode: _focusNodeList[1],
                                 textAlign: TextAlign.center,
                                 decoration: InputDecoration(
@@ -218,7 +219,7 @@ class AddBookState extends State<AddBookPage> {
                             child: Card(
                               child: TextField(
                                 controller:
-                                _requestBody.controllerMap["publisher"],
+                                    _requestBody.controllerMap["publisher"],
                                 focusNode: _focusNodeList[2],
                                 textAlign: TextAlign.center,
                                 decoration: InputDecoration(
@@ -335,7 +336,19 @@ class AddBookState extends State<AddBookPage> {
     );
   }
 
-  void addBook() {}
+  void addBook() {
+    var controlMap =_requestBody.controllerMap;
+      _requestBody.isbn =barCode;
+      _requestBody.name =controlMap["name"].text;
+      _requestBody.author =controlMap["author"].text;
+      _requestBody.publisher =controlMap["publisher"].text;
+      _requestBody.pageCount =controlMap["pageCount"].text;
+      _requestBody.remark =controlMap["remark"].text;
+      _requestBody.returnDate =controlMap["returnDate"].text;
+      _requestBody.currentPage =controlMap["currentPage"].text;
+      _requestBody.tag =controlMap["tag"].text;
+      _requestBody.refBookId =refBookId;
+  }
 
   void scanPressed() {
     scan();
@@ -344,6 +357,7 @@ class AddBookState extends State<AddBookPage> {
   Future scan() async {
     try {
       String barCode = await BarcodeScanner.scan();
+      this.barCode = barCode;
       Navigator.of(context).push(MaterialPageRoute(builder: (context) {
         return SelectBookPage(isbn: barCode, bloc: selectedBloc);
       }));
@@ -356,25 +370,23 @@ class AddBookState extends State<AddBookPage> {
     }
   }
 
-  Widget get progressWidget =>
-      Offstage(
-          offstage: readStatus != 1,
-          child: EnsureVisibleWhenFocused(
+  Widget get progressWidget => Offstage(
+      offstage: readStatus != 1,
+      child: EnsureVisibleWhenFocused(
+        focusNode: _focusNodeList[5],
+        child: Card(
+          child: TextField(
+            controller: _requestBody.controllerMap["currentPage"],
+            keyboardType: TextInputType.numberWithOptions(),
             focusNode: _focusNodeList[5],
-            child: Card(
-              child: TextField(
-                controller: _requestBody.controllerMap["currentPage"],
-                keyboardType: TextInputType.numberWithOptions(),
-                focusNode: _focusNodeList[5],
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                    labelText: "当前页数",
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide(width: 0, style: BorderStyle
-                            .none))),
-              ),
-            ),
-          ));
+            textAlign: TextAlign.center,
+            decoration: InputDecoration(
+                labelText: "当前页数",
+                border: OutlineInputBorder(
+                    borderSide: BorderSide(width: 0, style: BorderStyle.none))),
+          ),
+        ),
+      ));
 
   Widget get borrowInfo {
     return Offstage(
@@ -392,7 +404,7 @@ class AddBookState extends State<AddBookPage> {
                   labelText: "归还时间",
                   border: OutlineInputBorder(
                       borderSide:
-                      BorderSide(width: 0, style: BorderStyle.none))),
+                          BorderSide(width: 0, style: BorderStyle.none))),
             ),
           ),
         ),
@@ -407,7 +419,7 @@ class AddBookState extends State<AddBookPage> {
                   labelText: "备注",
                   border: OutlineInputBorder(
                       borderSide:
-                      BorderSide(width: 0, style: BorderStyle.none))),
+                          BorderSide(width: 0, style: BorderStyle.none))),
             ),
           ),
         ),
@@ -424,39 +436,37 @@ class AddBookState extends State<AddBookPage> {
           return StreamBuilder(
             stream: bloc.stream,
             builder: (context, AsyncSnapshot<List<Tag>> snapshot) {
-              if(snapshot.hasData && snapshot.data.length>0){
+              if (snapshot.hasData && snapshot.data.length > 0) {
                 var list = snapshot.data;
                 return Column(
-                  children: list.map((tag){
+                  children: list.map((tag) {
                     return Text(tag.tag);
                   }).toList(),
                 );
-              }
-              else return Container();
+              } else
+                return Container();
             },
           );
-        }
-    );
+        });
   }
 
   void _showDatePicker() async {
-    var now = DateTime
-        .now()
-        .millisecondsSinceEpoch;
-    var threeMonth = now + 7776000000;
+    var now = DateTime.now();
+    var lastDate = DateTime(now.year + 1, now.month, now.day);
     DateTime initDate;
     var preSelected = _requestBody.controllerMap["returnDate"].text;
     if (ObjectUtil.isNotEmpty(preSelected)) {
       initDate = DateUtil.getDateTime(preSelected);
     } else {
-      initDate = DateTime.fromMillisecondsSinceEpoch(now + 25 * 3600 * 1000);
+      initDate = DateTime.fromMillisecondsSinceEpoch(
+          now.millisecondsSinceEpoch + 25 * 3600 * 1000);
     }
 
     var date = await showDatePicker(
       context: context,
       initialDate: initDate,
       firstDate: DateTime.now(),
-      lastDate: DateTime.fromMillisecondsSinceEpoch(threeMonth),
+      lastDate: lastDate,
     );
     _focusNodeList[6].unfocus();
     _requestBody.controllerMap["returnDate"].text =

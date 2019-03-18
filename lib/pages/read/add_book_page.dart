@@ -10,13 +10,14 @@ import 'package:flutter_mk/helper/ensure_visiable_helper.dart';
 import 'package:flutter_mk/models/book.dart';
 import 'package:flutter_mk/models/shelf_models.dart';
 import 'package:flutter_mk/pages/read/select_book_page.dart';
+import 'package:flutter_mk/repositories/read_repository.dart';
 
 class AddBookPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => AddBookState();
 }
 
-class RequestBody {
+class FinalBody{
   var isbn;
   var cover;
   var name;
@@ -29,6 +30,9 @@ class RequestBody {
   var refBookId;
   var returnDate;
   var remark;
+}
+
+class RequestBody {
 
   List<String> fieldList = [
     "isbn",
@@ -61,6 +65,7 @@ class AddBookState extends State<AddBookPage> {
   bool borrowed = false;
   String returnDate = "";
   String refBookId;
+  String cover;
 
   SelectedBookBLoc selectedBloc;
 
@@ -113,8 +118,8 @@ class AddBookState extends State<AddBookPage> {
             builder: (context, AsyncSnapshot<Book> snapshot) {
               Book book = Book();
               if (snapshot.hasData) book = snapshot.data;
-              refBookId =book.id;
-              print(book.cover);
+              refBookId = book.id;
+              cover = book.cover;
               _requestBody.controllerMap["name"].text = book.name;
               _requestBody.controllerMap["author"].text = book.author;
               _requestBody.controllerMap["publisher"].text = book.publisher;
@@ -337,17 +342,21 @@ class AddBookState extends State<AddBookPage> {
   }
 
   void addBook() {
-    var controlMap =_requestBody.controllerMap;
-      _requestBody.isbn =barCode;
-      _requestBody.name =controlMap["name"].text;
-      _requestBody.author =controlMap["author"].text;
-      _requestBody.publisher =controlMap["publisher"].text;
-      _requestBody.pageCount =controlMap["pageCount"].text;
-      _requestBody.remark =controlMap["remark"].text;
-      _requestBody.returnDate =controlMap["returnDate"].text;
-      _requestBody.currentPage =controlMap["currentPage"].text;
-      _requestBody.tag =controlMap["tag"].text;
-      _requestBody.refBookId =refBookId;
+    var controlMap = _requestBody.controllerMap;
+    var body = Map<String ,String >();
+    body["isbn"] = barCode;
+    body["name"] = controlMap["name"].text;
+    body["author"] = controlMap["author"].text;
+    body["publisher"] = controlMap["publisher"].text;
+    body["pageCount"] = controlMap["pageCount"].text;
+    body["remark"] = controlMap["remark"].text;
+    body["returnDate"] = controlMap["returnDate"].text;
+    body["currentPage"] = controlMap["currentPage"].text;
+    body["tag"] = controlMap["tag"].text;
+    body["refBookId"] = refBookId;
+    body["state"] = readStatus.toString();
+    body["cover"]= cover;
+    ReadRepository(context).addBook(body);
   }
 
   void scanPressed() {

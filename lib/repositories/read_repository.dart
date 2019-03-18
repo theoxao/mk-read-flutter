@@ -107,11 +107,9 @@ class ReadRepository {
     return UserBook.fromJsonMap(response.data["data"]);
   }
 
-  Future addBook(RequestBody body) async{
+  Future addBook(Map<String,String> body) async{
     String path ="$host/read/read/add_book";
     var response = await request.post(getOption(path) ,data: body);
-    if (response.data["status"] == "200") {
-      print(response.data); //TODO d
-    }
+
   }
 }

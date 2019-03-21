@@ -25,11 +25,12 @@ class ActivityBloc extends BaseBloc<List<Activity>> {
 
   ActivityBloc(String groupId) {
     this.groupId = groupId;
+    initData(groupId);
   }
 
-  void initData(String groupId) async{
-      var list  = await GroupRepository(context).fetchActivities(groupId);
-      this.list= list;
-      sink.add(list);
+  void initData(String groupId) async {
+    var list = await GroupRepository(context).fetchActivities(groupId);
+    this.list = list;
+    sink.add(list);
   }
 }

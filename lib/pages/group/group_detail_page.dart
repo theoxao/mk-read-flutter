@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mk/blocs/group/gourp_bloc.dart';
 import 'package:flutter_mk/models/group_models.dart';
+import 'package:flutter_mk/pages/group/add_post.dart';
 import 'package:flutter_mk/views/group/group_detail_widget.dart';
 
 class GroupDetail extends StatefulWidget {
@@ -131,7 +132,15 @@ class _GroupDetailState extends State<GroupDetail> {
                                   padding: const EdgeInsets.only(top: 16 ,left: 8 , right: 8),
                                   child: GroupDetailWidget(widget.id),
                                 ),)
-                )
+                ),
+                FloatingActionButton(child: Icon(Icons.add_a_photo), onPressed: () {
+                   Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
+                        return NewPostPage(
+                          groupId: widget.id,
+                        );
+                      }));
+                },)
               ],
             );
           } else

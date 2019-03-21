@@ -8,6 +8,17 @@ class ActivityView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Row(
+      children: <Widget>[
+        Image.network(
+          activity.avatarUrl,
+          width: 20,
+          height: 20,
+        ),
+        Text(activity.nickName),
+        Text(activity.operation),
+        //TODO
+      ],
+    );
   }
 }

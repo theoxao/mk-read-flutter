@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mk/blocs/group/post_bloc.dart';
 import 'package:flutter_mk/common/commons.dart';
 import 'package:flutter_mk/models/post_model.dart';
+import 'package:flutter_mk/pages/group/add_post.dart';
 import 'package:flutter_mk/views/group/act_view.dart';
 import 'package:flutter_mk/views/group/post_view.dart';
 
@@ -54,7 +55,6 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget>
     tabs.add(Tab(
       child: Text("小组动态", style: TextStyle(color: Colors.black87)),
     ));
-
     return Card(
       elevation: 6,
       child: Container(
@@ -75,10 +75,6 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget>
                       tabs: tabs,
                     ),
                   ),
-                  RaisedButton(
-                    child: Text("新发言"),
-                    onPressed: () {},
-                  )
                 ],
               ),
               Divider(),

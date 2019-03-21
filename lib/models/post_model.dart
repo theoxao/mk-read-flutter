@@ -1,6 +1,4 @@
-
 class Post {
-
   String id;
   String groupId;
   String userId;
@@ -17,21 +15,35 @@ class Post {
   List<String> likeList;
   List<Object> comments;
 
-  Post.fromJsonMap(Map<String, dynamic> map): 
-    id = map["id"],
-    groupId = map["groupId"],
-    userId = map["userId"],
-    nickName = map["nickName"],
-    avatarUrl = map["avatarUrl"],
-    refBook = map["refBook"],
-    refBookName = map["refBookName"],
-    content = map["content"],
-    images = List<String>.from(map["images"]),
-    createAt = map["createAt"],
-    updateAt = map["updateAt"],
-    timeDisplay = map["timeDisplay"],
-    liked = map["liked"],
-    likeList = List<String>.from(map["likeList"]),
-    comments = map["comments"];
+  Post.fromJsonMap(Map<String, dynamic> map)
+      : id = map["id"],
+        groupId = map["groupId"],
+        userId = map["userId"],
+        nickName = map["nickName"],
+        avatarUrl = map["avatarUrl"],
+        refBook = map["refBook"],
+        refBookName = map["refBookName"],
+        content = map["content"],
+        images = List<String>.from(map["images"]),
+        createAt = map["createAt"],
+        updateAt = map["updateAt"],
+        timeDisplay = map["timeDisplay"],
+        liked = map["liked"],
+        likeList = List<String>.from(map["likeList"]),
+        comments = map["comments"];
+}
 
+class Activity {
+  String groupId;
+  String userId;
+  String nickName;
+  String avatarUrl;
+  String operation;
+
+  Activity.fromJson(Map<String, dynamic> map)
+      : groupId = map["groupId"],
+        userId = map["userId"],
+        nickName = map["nickName"],
+        avatarUrl = map["avatarUrl"],
+        operation = map["operation"];
 }

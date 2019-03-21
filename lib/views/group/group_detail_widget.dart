@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mk/blocs/group/post_bloc.dart';
 import 'package:flutter_mk/common/commons.dart';
 import 'package:flutter_mk/models/post_model.dart';
+import 'package:flutter_mk/views/group/act_view.dart';
 import 'package:flutter_mk/views/group/post_view.dart';
 
 class GroupDetailWidget extends StatefulWidget {
@@ -101,9 +102,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget>
           var list = snapshot.data;
           return Column(
             children: list.map((post) {
-              return PostView(
-                post: post,
-              );
+              return PostView(post: post);
             }).toList(),
           );
         } else {
@@ -114,6 +113,21 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget>
   }
 
   Widget getActivity(String id) {
-    return Text("activity");
+    var bloc = ActivityBloc(id);
+    return StreamBuilder(
+      stream: bloc.stream,
+      builder: (context, AsyncSnapshot<List<Activity>> snapshot) {
+        if (snapshot.hasData && snapshot.data.length > 0) {
+          var list = snapshot.data;
+          return Column(
+            children: list.map((act) {
+              return ActivityView(activity: act);
+            }).toList(),
+          );
+        } else {
+          return Container();
+        }
+      },
+    );
   }
 }

@@ -17,3 +17,19 @@ class PostBloc extends BaseBloc<List<Post>> {
     sink.add(list);
   }
 }
+
+class ActivityBloc extends BaseBloc<List<Activity>> {
+  List<Activity> list;
+
+  String groupId;
+
+  ActivityBloc(String groupId) {
+    this.groupId = groupId;
+  }
+
+  void initData(String groupId) async{
+      var list  = await GroupRepository(context).fetchActivities(groupId);
+      this.list= list;
+      sink.add(list);
+  }
+}

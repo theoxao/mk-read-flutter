@@ -39,4 +39,14 @@ class GroupRepository {
       }
       return list;
   }
+
+  Future<List<Activity>> fetchActivities(String groupId) async {
+      String path = "$host/group/group/activity?groupId=$groupId";
+      var response =await request.get(getOption(path));
+      List<Activity> list =[];
+      for (var act in response.data["data"]){
+        list.add(Activity.fromJson(act));
+      }
+      return list;
+  }
 }

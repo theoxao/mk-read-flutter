@@ -9,6 +9,7 @@ class EventRequest {
 
   Future<Response> get(Options options) async {
     try {
+      print(options.path);
       Response response = await Dio(options).get(options.path);
       return response;
     } on DioError catch (e) {

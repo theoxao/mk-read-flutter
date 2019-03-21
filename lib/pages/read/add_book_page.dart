@@ -1,5 +1,4 @@
 import 'package:barcode_scan/barcode_scan.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

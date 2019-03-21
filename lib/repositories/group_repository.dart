@@ -3,6 +3,7 @@ import 'package:flutter_mk/common/commons.dart';
 import 'package:flutter_mk/models/group_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mk/http/request_wrap.dart';
+import 'package:flutter_mk/models/post_model.dart';
 
 class GroupRepository {
   EventRequest request;
@@ -12,7 +13,7 @@ class GroupRepository {
   Future<List<Group>> fetchGroupList() async {
     print("requesting group list");
     String path = host + "/group/group/list";
-    var response = await request.get(getOptions);
+    var response = await request.get(getOption(path));
     print(response);
     List<Group> list = [];
     for (var group in response.data['data']) {
@@ -24,8 +25,18 @@ class GroupRepository {
   Future<Group> fetchGroupDetail(String id) async {
     print("request group detail");
     String path = host + "/group/group/detail?id=$id";
-    var response = await Dio(getOptions).get(path);
+    var response = await request.get(getOption(path));
     print(response);
     return Group.fromJsonMap(response.data["data"]);
+  }
+
+  Future<List<Post>> fetchPostList(String groupId) async{
+      String path =  "$host/group/post/list?id=$groupId";
+      var response = await request.get(getOption(path));
+      List<Post> list = [];
+      for (var post in response.data["data"]){
+        list.add(Post.fromJsonMap(post));
+      }
+      return list;
   }
 }

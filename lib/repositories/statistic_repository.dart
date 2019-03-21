@@ -10,9 +10,10 @@ class StatRepository {
 
     StatRepository(BuildContext context):this.request = EventRequest(context);
 
-    Future<List<Coordinate>> fetchStat( String type ,{String refBook}) async {
+    Future<List<Coordinate>> fetchStat( int type , int source,  {String
+    refBook}) async {
         print("request stat data ");
-        String path = host + "/read/read/chart_stat?type=$type";
+        String path = host + "/read/read/chart_stat?type=$type&source=$source";
         if (ObjectUtil.isNotEmpty(refBook)){
             path+="&refBook=$refBook";
         }

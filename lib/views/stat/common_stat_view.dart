@@ -14,13 +14,18 @@ class StatChartView extends StatefulWidget {
 }
 
 class _StatChartViewState extends State<StatChartView> {
-  List<ChartTab> tabs = [
-    ChartTab(icon: Icons.event_available, text: "阅读页数", value: "0"),
-    ChartTab(icon: Icons.rss_feed, text: "阅读时长(分钟)", value: "1")
-  ];
+  StatBloc bloc;
+
+  List<ChartTab> tabs ;
 
   @override
   void initState() {
+    bloc = StatBloc(refBook: widget.refBook);
+    tabs = [
+      ChartTab(icon: Icons.event_available, text: "阅读页数", value: 1, bloc:
+      bloc,),
+      ChartTab(icon: Icons.rss_feed, text: "阅读时长(分钟)", value: 0, bloc: bloc)
+    ];
     super.initState();
   }
 
@@ -32,7 +37,8 @@ class _StatChartViewState extends State<StatChartView> {
           children: tabs,
         ),
         ChartView(
-          refBook: widget.refBook,
+            refBook: widget.refBook,
+            bloc: bloc
         )
       ],
     );
@@ -41,10 +47,10 @@ class _StatChartViewState extends State<StatChartView> {
 
 class ChartView extends StatefulWidget {
   final String refBook;
-
   final StatBloc bloc;
 
-  ChartView({this.refBook}) : bloc = StatBloc(refBook: refBook);
+
+  ChartView({this.refBook, this.bloc});
 
   @override
   _ChartViewState createState() => _ChartViewState();
@@ -58,7 +64,7 @@ class _ChartViewState extends State<ChartView> {
       child: StreamBuilder(
         stream: widget.bloc.stream,
         builder: (context, AsyncSnapshot<List<Coordinate>> snapshot) {
-          if (snapshot.hasData && snapshot.data.length>0) {
+          if (snapshot.hasData && snapshot.data.length > 0) {
             var list = snapshot.data.map((c) {
               return TimeLine.fromCoordinate(c);
             }).toList();
@@ -75,8 +81,8 @@ class _ChartViewState extends State<ChartView> {
                       desiredTickCount: 5, dataIsInWholeNumbers: false),
                   renderSpec: charts.GridlineRendererSpec(
                       lineStyle: charts.LineStyleSpec(
-                    dashPattern: [4, 4],
-                  ))),
+                        dashPattern: [4, 4],
+                      ))),
             );
           } else {
             return Container();
@@ -86,10 +92,11 @@ class _ChartViewState extends State<ChartView> {
     );
   }
 
-  List<charts.Series<TimeLine, DateTime>> buildData(List<TimeLine> list) => [
+  List<charts.Series<TimeLine, DateTime>> buildData(List<TimeLine> list) =>
+      [
         charts.Series<TimeLine, DateTime>(
           domainFn: (TimeLine data, int index) => data.x,
-          measureFn: (TimeLine data, int index) => data.y / 1000 / 60,
+          measureFn: (TimeLine data, int index) => data.y ,
           data: list,
           id: "stat",
         )
@@ -118,17 +125,24 @@ class TimeLine {
 class ChartTab extends StatelessWidget {
   final IconData icon;
   final String text;
-  final String value;
+  final int value;
+  final StatBloc bloc;
 
-  const ChartTab({Key key, this.icon, this.text, this.value}) : super(key: key);
+  const ChartTab({Key key, this.icon, this.text, this.value, this.bloc})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Icon(icon),
-        Text(text),
-      ],
+    return GestureDetector(
+      onTap: () {
+        bloc.changeSource(value);
+      },
+      child: Row(
+        children: <Widget>[
+          Icon(icon),
+          Text(text),
+        ],
+      ),
     );
   }
 }

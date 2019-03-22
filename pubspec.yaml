@@ -46,6 +46,7 @@ dependencies:
   flustars: 0.1.9
   flushbar: 1.2.4
   super_tooltip: 0.9.0
+  image_picker: 0.4.12+1
 
 dev_dependencies:
   flutter_test:

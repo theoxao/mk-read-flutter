@@ -49,100 +49,107 @@ class _GroupDetailState extends State<GroupDetail> {
           if (snapshot.hasData) {
             var group = snapshot.data;
 
-            return CustomScrollView(
-              controller: _scrollController,
-              slivers: <Widget>[
-                SliverAppBar(
-                  title: Text(showTitle ? group.name : ""),
-                  actions: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(Icons.share),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(Icons.details),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(Icons.person),
-                    )
-                  ],
-                  pinned: true,
-                  expandedHeight: 230,
-                  flexibleSpace: FlexibleSpaceBar(
-                    background: Stack(children: <Widget>[
-                      Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: CachedNetworkImageProvider(group.image),
-                            fit: BoxFit.fitWidth,
-                          ),
-                        ),
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaY: 5, sigmaX: 5),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.0)),
-                          ),
-                        ),
+            return Stack(children: [
+              CustomScrollView(
+                controller: _scrollController,
+                slivers: <Widget>[
+                  SliverAppBar(
+                    title: Text(showTitle ? group.name : ""),
+                    actions: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(Icons.share),
                       ),
-                      Positioned(
-                        left: 16,
-                        bottom: 56,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            CachedNetworkImage(
-                              imageUrl: group.image,
-                              width: 100,
-                              height: 100,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    group.name,
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                            fontSize: 24,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    group.remark,
-                                    style: TextStyle(
-                                            fontSize: 22, color: Colors.white),
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(Icons.details),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(Icons.person),
                       )
-                    ]),
+                    ],
+                    pinned: true,
+                    expandedHeight: 230,
+                    flexibleSpace: FlexibleSpaceBar(
+                      background: Stack(children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: CachedNetworkImageProvider(group.image),
+                              fit: BoxFit.fitWidth,
+                            ),
+                          ),
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(sigmaY: 5, sigmaX: 5),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.0)),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          left: 16,
+                          bottom: 56,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              CachedNetworkImage(
+                                imageUrl: group.image,
+                                width: 100,
+                                height: 100,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      group.name,
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                          fontSize: 24,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      group.remark,
+                                      style: TextStyle(
+                                          fontSize: 22, color: Colors.white),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ]),
+                    ),
                   ),
+                  SliverToBoxAdapter(
+                      child: Container(
+                    color: Colors.white,
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.only(top: 16, left: 8, right: 8),
+                      child: GroupDetailWidget(widget.id),
+                    ),
+                  )),
+                ],
+              ),
+              Positioned(
+                bottom: 48,
+                right: 24,
+                child: FloatingActionButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                      return NewPostPage();
+                    }));
+                  },
+                  child: Icon(Icons.add_a_photo),
                 ),
-                SliverToBoxAdapter(
-                        child: Container(
-                                color:Colors.white,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 16 ,left: 8 , right: 8),
-                                  child: GroupDetailWidget(widget.id),
-                                ),)
-                ),
-                FloatingActionButton(child: Icon(Icons.add_a_photo), onPressed: () {
-                   Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) {
-                        return NewPostPage(
-                          groupId: widget.id,
-                        );
-                      }));
-                },)
-              ],
-            );
+              )
+            ]);
           } else
             return Container(
               color: Colors.white,

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
@@ -10,13 +12,14 @@ import 'package:flutter_mk/models/book.dart';
 import 'package:flutter_mk/models/shelf_models.dart';
 import 'package:flutter_mk/pages/read/select_book_page.dart';
 import 'package:flutter_mk/repositories/read_repository.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddBookPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => AddBookState();
 }
 
-class FinalBody{
+class FinalBody {
   var isbn;
   var cover;
   var name;
@@ -32,7 +35,6 @@ class FinalBody{
 }
 
 class RequestBody {
-
   List<String> fieldList = [
     "isbn",
     "cover",
@@ -65,8 +67,10 @@ class AddBookState extends State<AddBookPage> {
   String returnDate = "";
   String refBookId;
   String cover;
+  File _image;
 
   SelectedBookBLoc selectedBloc;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   RequestBody _requestBody = RequestBody();
 
@@ -77,6 +81,12 @@ class AddBookState extends State<AddBookPage> {
         width: coverWidth,
         height: coverHeight,
         fit: BoxFit.cover,
+      );
+    } else if (_image != null) {
+      return Image.file(
+        _image,
+        width: coverWidth,
+        height: coverHeight,
       );
     } else {
       return Image.asset(
@@ -105,6 +115,7 @@ class AddBookState extends State<AddBookPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
 //      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         title: Text("添加书籍"),
@@ -114,7 +125,7 @@ class AddBookState extends State<AddBookPage> {
           bottom: false,
           child: StreamBuilder<Book>(
             stream: selectedBloc.stream,
-            builder: (context, AsyncSnapshot<Book> snapshot) {
+            builder: (streamContext, AsyncSnapshot<Book> snapshot) {
               Book book = Book();
               if (snapshot.hasData) book = snapshot.data;
               refBookId = book.id;
@@ -171,7 +182,56 @@ class AddBookState extends State<AddBookPage> {
                             child: coverImage(book.cover),
                           ),
                           onTap: () {
-                            print("//TODO");
+                            showDialog(
+                              context: streamContext,
+                              builder: (context) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(64.0),
+                                  child: Center(
+                                    child: Container(
+                                      height: 100,
+                                      color: Colors.white,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: <Widget>[
+                                          GestureDetector(
+                                            onTap: () {
+                                              getImage(ImageSource.camera);
+                                              Navigator.pop(context);
+                                            },
+                                            child: SizedBox(
+                                              child: Center(
+                                                child: Text(
+                                                  "拍照",
+                                                  style: bookNameStyle,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          GestureDetector(
+                                            onTap: () {
+                                              getImage(ImageSource.gallery);
+                                              Navigator.pop(context);
+                                            },
+                                            child: SizedBox(
+                                              child: Center(
+                                                child: Text(
+                                                  "从相册选择",
+                                                  style: bookNameStyle,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
                           },
                         ),
                       ],
@@ -340,9 +400,17 @@ class AddBookState extends State<AddBookPage> {
     );
   }
 
+  Future getImage(ImageSource source) async {
+    var image = await ImagePicker.pickImage(source: source);
+
+    setState(() {
+      _image = image;
+    });
+  }
+
   void addBook() {
     var controlMap = _requestBody.controllerMap;
-    var body = Map<String ,String >();
+    var body = Map<String, String>();
     body["isbn"] = barCode;
     body["name"] = controlMap["name"].text;
     body["author"] = controlMap["author"].text;
@@ -354,7 +422,7 @@ class AddBookState extends State<AddBookPage> {
     body["tag"] = controlMap["tag"].text;
     body["refBookId"] = refBookId;
     body["state"] = readStatus.toString();
-    body["cover"]= cover;
+    body["cover"] = cover;
     ReadRepository(context).addBook(body);
   }
 

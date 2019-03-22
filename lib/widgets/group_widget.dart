@@ -12,119 +12,109 @@ class GroupListWidget extends StatefulWidget {
 }
 
 class GroupListState extends State<GroupListWidget> {
-    GroupListBloc groupListBloc = GroupListBloc();
+  GroupListBloc groupListBloc = GroupListBloc();
 
   @override
   Widget build(BuildContext context) {
-      return SafeArea(
-          child: Scaffold(
-              appBar: AppBar(
-                  title: Text("我的小组"),
-                  actions: <Widget>[
-                      GestureDetector(
-                          child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Icon(Icons.add),
-                          ),
-                          onTap: () =>
-                          {
-                              //TODO create  group
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("我的小组"),
+          actions: <Widget>[
+            GestureDetector(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(Icons.add),
+              ),
+              onTap: () => {
+                    //TODO create  group
+                  },
+            )
+          ],
+        ),
+        body: Container(
+          child: StreamBuilder<List<Group>>(
+            stream: groupListBloc.stream,
+            builder: (context, AsyncSnapshot<List<Group>> snapshot) {
+              if (snapshot.hasData) {
+                List<Group> groups = snapshot.data;
+                if (groups != null && groups.isNotEmpty) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: groups.map((group) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) {
+                              return GroupDetail(group.id);
+                            }));
                           },
-                      )
-                  ],
-              ),
-              body: Container(
-                  child: StreamBuilder<List<Group>>(
-                      stream: groupListBloc.stream,
-                      builder: (context, AsyncSnapshot<List<Group>> snapshot) {
-                          if (snapshot.hasData) {
-                              List<Group> groups = snapshot.data;
-                              if (groups != null && groups.isNotEmpty) {
-                                  return Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                          children: groups.map((group) {
-                                              return GestureDetector(
-                                                  onTap: () {
-                                                      Navigator.of(context)
-                                                              .push(MaterialPageRoute(builder: (context) {
-                                                          return GroupDetail(group.id);
-                                                      }));
-                                                  },
-                                                  child: Card(
-                                                      child: Row(
-                                                          children: <Widget>[
-                                                              Expanded(
-                                                                  child: Column(
-                                                                      children: <Widget>[
-                                                                          Stack(children: <Widget>[
-                                                                              Image.network(
-                                                                                  group.image,
-                                                                                  fit: BoxFit
-                                                                                          .fitWidth,
-                                                                                  height: 100,
-                                                                                  width: double
-                                                                                          .infinity,
-                                                                              ),
-                                                                              buildMessageChip(group
-                                                                                      .messageCount),
-                                                                          ]),
-                                                                          Padding(
-                                                                              padding: const EdgeInsets
-                                                                                      .all(8.0),
-                                                                              child: Row(
-                                                                                  mainAxisAlignment:
-                                                                                  MainAxisAlignment
-                                                                                          .spaceBetween,
-                                                                                  children: <
-                                                                                          Widget>[
-                                                                                      Text(
-                                                                                          group
-                                                                                                  .name,
-                                                                                          style: bookNameStyle,
-                                                                                      ),
-                                                                                      Text(group
-                                                                                              .memberCount
-                                                                                              .toString())
-                                                                                  ],
-                                                                              ),
-                                                                          )
-                                                                      ],
-                                                                  ),
-                                                              ),
-                                                          ],
-                                                      ),
-                                                  ),
-                                              );
-                                          }).toList(),
-                                      ),
-                                  );
-                              } else
-                                  return Container();
-                          } else
-                              return SpinKitThreeBounce(
-                                      color: primaryColor, size: primaryTextSize);
-                      },
-                  ),
-              ),
+                          child: Card(
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Column(
+                                    children: <Widget>[
+                                      Stack(children: <Widget>[
+                                        Image.network(
+                                          group.image,
+                                          fit: BoxFit.fitWidth,
+                                          height: 100,
+                                          width: double.infinity,
+                                        ),
+                                        buildMessageChip(group.messageCount),
+                                      ]),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Text(
+                                              group.name,
+                                              style: bookNameStyle,
+                                            ),
+                                            Text(group.memberCount.toString())
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  );
+                } else
+                  return Container();
+              } else
+                return SpinKitThreeBounce(
+                    color: primaryColor, size: primaryTextSize);
+            },
           ),
-      );
+        ),
+      ),
+    );
   }
 
-    Widget buildMessageChip(int messageCount) {
-        if (messageCount > 0)
-            return Positioned(
-                right: 16,
-                top: 0,
-                child: Chip(
-                    label: Text(
-                        messageCount.toString(),
-                        style: TextStyle(color: colorWhite),
-                    ),
-                    backgroundColor: primaryColor,
-                ),
-            );
-        else
-            return Container();
+  Widget buildMessageChip(int messageCount) {
+    if (messageCount > 0)
+      return Positioned(
+        right: 16,
+        top: 0,
+        child: Chip(
+          label: Text(
+            messageCount.toString(),
+            style: TextStyle(color: colorWhite),
+          ),
+          backgroundColor: primaryColor,
+        ),
+      );
+    else
+      return Container();
   }
 }

@@ -20,6 +20,7 @@ class StatBloc extends BaseBloc<List<Coordinate>> {
   List<Coordinate> dataList = List();
 
   void initData(String refBook) async {
+    this.refBook =refBook;
     var list = await StatRepository(context)
         .fetchStat(type, source, refBook: refBook);
     this.dataList = list;

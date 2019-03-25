@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_mk/pages/read/read_page.dart';
 import 'package:flutter_mk/pages/read/search_book_page.dart';
 import 'package:platform/platform.dart';
@@ -24,6 +25,8 @@ class App extends StatefulWidget {
 }
 
 class AppState extends State<App> {
+  final home = HomePage();
+
   @override
   void initState() {
     super.initState();
@@ -49,12 +52,20 @@ class AppState extends State<App> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: theme,
-      home: HomePage(),
+      home: home,
       routes: <String, WidgetBuilder>{
 //        "/": (context) => HomePage(),
         "/add_book": (context) => AddBookPage(),
         "/search_book": (context) => SearchBookPage(),
       },
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('en', 'US'),
+        const Locale('cn', 'ZH'),
+      ],
     );
   }
 }

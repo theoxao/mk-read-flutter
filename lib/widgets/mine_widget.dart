@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MineWidget extends StatefulWidget {
+const MineWidget();
+
   @override
   State<StatefulWidget> createState() => MineState();
 }

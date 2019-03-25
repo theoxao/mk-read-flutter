@@ -6,6 +6,7 @@ import 'package:flutter_mk/views/read/shelf_book_view.dart';
 import '../models/user_book.dart';
 
 class ShelfWidget extends StatefulWidget {
+  const ShelfWidget();
 
   @override
   State<StatefulWidget> createState() => ShelfState();

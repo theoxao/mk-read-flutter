@@ -7,6 +7,9 @@ import 'package:flutter_mk/repositories/group_repository.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class GroupListWidget extends StatefulWidget {
+
+const GroupListWidget();
+
   @override
   State<StatefulWidget> createState() => GroupListState();
 }

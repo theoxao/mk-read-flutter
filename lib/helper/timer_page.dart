@@ -21,7 +21,8 @@ class Dependencies {
   final int timerMillisecondsRefreshRate = 1000;
   int startAt = 0;
   int duration = 0;
-  Dependencies({this.startAt ,this.duration});
+  int state = 1;  //0停止 // 1 进行 //2 暂停
+  Dependencies({this.startAt ,this.duration ,this.state});
 }
 
 class TimerPage extends StatefulWidget {

@@ -20,10 +20,10 @@ class _ReadPageState extends State<ReadPage> {
   var pageController = TextEditingController();
   var focusNode = FocusNode();
   Dependencies dependencies;
+  int startAt = 0;
 
   @override
   void initState() {
-    int startAt = 0;
     if (widget.userBook.recentRecord?.status == 1) {
       startAt = widget.userBook.recentRecord?.startAt;
     }
@@ -128,8 +128,8 @@ class _ReadPageState extends State<ReadPage> {
                         pageCount = value;
                       },
                       autofocus: true,
-                      decoration: InputDecoration(
-                          labelText: 'Full Name', hintText: 'eg. John Smith'),
+                      decoration:
+                          InputDecoration(labelText: '请输入页数', hintText: '0'),
                     ),
                   )
                 ],
@@ -142,6 +142,10 @@ class _ReadPageState extends State<ReadPage> {
                           .readOperation(
                               widget.logId, widget.userBook.id, 0, pageCount)
                           .then((value) {
+                        this.setState(() {
+                          startAt = 0;
+                          dependencies
+                        });
                         Navigator.pop(context);
                       });
                     })

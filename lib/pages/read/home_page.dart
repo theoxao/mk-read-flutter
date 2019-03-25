@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:redux/redux.dart';
-
 import 'package:flutter_mk/common/commons.dart';
 import 'package:flutter_mk/widgets/group_widget.dart';
 import 'package:flutter_mk/widgets/mine_widget.dart';
@@ -12,14 +9,10 @@ class HomePage extends StatefulWidget {
   State<StatefulWidget> createState() => HomeState();
 }
 
-int switchIndex(int state, dynamic action) {
-  return state = action;
-}
-
 class HomeState extends State<HomePage> {
-  final indexStore = Store<int>(switchIndex, initialState: 0);
+  var index = 0;
 
-  final _options = <Widget>[
+  static const _options = const <Widget>[
     ShelfWidget(),
     GroupListWidget(),
     MineWidget(),
@@ -34,23 +27,20 @@ class HomeState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreProvider<int>(
-        store: indexStore,
-        child:StoreConnector<int,int>(builder: (context , index){
-          return Scaffold(
-            body: Center(
-              child: _options.elementAt(index),
-            ),
-            bottomNavigationBar: BottomNavigationBar(
-              items: defaultItems,
-              currentIndex: index,
-              fixedColor: primaryColor,
-              onTap: (value) {
-                indexStore.dispatch(value);
-              },
-            ),
-          );
-        }, converter: (store)=>store.state)
+    return Scaffold(
+      body: Center(
+        child: _options.elementAt(index),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: defaultItems,
+        currentIndex: index,
+        fixedColor: primaryColor,
+        onTap: (value) {
+          this.setState(() {
+            this.index = value;
+          });
+        },
+      ),
     );
   }
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:flutter_mk/blocs/timer_bloc.dart';
+
 class ElapsedTime {
   final int seconds;
   final int minutes;
@@ -26,17 +28,18 @@ class Dependencies {
 }
 
 class TimerPage extends StatefulWidget {
-  TimerPage({Key key, this.dependencies}) : super(key: key);
-  final Dependencies dependencies;
+  TimerPage({Key key, this.bloc}) : super(key: key);
+  final TimerBloc bloc ; 
 
-  TimerPageState createState() => new TimerPageState(dependencies);
+  TimerPageState createState() => new TimerPageState(bloc);
 }
 
 class TimerPageState extends State<TimerPage> {
-  final Dependencies dependencies;
+  // final Dependencies dependencies;
+    final TimerBloc bloc ; 
   int initTime;
 
-  TimerPageState(this.dependencies);
+  TimerPageState(this.bloc);
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +48,7 @@ class TimerPageState extends State<TimerPage> {
       children: <Widget>[
         new Expanded(
           child: new TimerText(
-            dependencies: dependencies,
+            bloc: bloc,
           ),
         ),
       ],
@@ -54,26 +57,25 @@ class TimerPageState extends State<TimerPage> {
 }
 
 class TimerText extends StatefulWidget {
-  TimerText({this.dependencies});
+  TimerText({this.bloc});
 
-  final Dependencies dependencies;
+  final TimerBloc bloc ; 
 
   TimerTextState createState() =>
-      new TimerTextState(dependencies: dependencies);
+      new TimerTextState(bloc: bloc);
 }
 
 class TimerTextState extends State<TimerText> {
-  TimerTextState({this.dependencies});
-
-  final Dependencies dependencies;
+  TimerTextState({this.bloc});
+  final TimerBloc bloc ; 
   Timer timer;
   int milliseconds;
 
   @override
   void initState() {
-    milliseconds = dependencies.startAt;
+    milliseconds =bloc.dependencies.startAt;
     timer = new Timer.periodic(
-        new Duration(milliseconds: dependencies.timerMillisecondsRefreshRate),
+        new Duration(milliseconds: bloc.dependencies.timerMillisecondsRefreshRate),
         callback);
     super.initState();
   }
@@ -86,8 +88,8 @@ class TimerTextState extends State<TimerText> {
   }
 
   void callback(Timer timer) {
-    if (milliseconds != DateTime.now().millisecondsSinceEpoch - dependencies.startAt + dependencies.duration) {
-      milliseconds =  DateTime.now().millisecondsSinceEpoch - dependencies.startAt + dependencies.duration;
+    if (milliseconds != DateTime.now().millisecondsSinceEpoch - bloc.dependencies.startAt + bloc.dependencies.duration) {
+      milliseconds =  DateTime.now().millisecondsSinceEpoch - bloc.dependencies.startAt + bloc.dependencies.duration;
       final int seconds = (milliseconds / 1000).truncate();
       final int minutes = (seconds / 60).truncate();
       final int hours = (minutes / 60).truncate();
@@ -96,7 +98,7 @@ class TimerTextState extends State<TimerText> {
         minutes: minutes,
         hours: hours,
       );
-      for (final listener in dependencies.timerListeners) {
+      for (final listener in bloc.dependencies.timerListeners) {
         listener(elapsedTime);
       }
     }
@@ -111,14 +113,14 @@ class TimerTextState extends State<TimerText> {
         new RepaintBoundary(
           child: new SizedBox(
             height: 72.0,
-            child: new MinutesAndSeconds(dependencies: dependencies),
+            child: new MinutesAndSeconds(dependencies: bloc.dependencies),
           ),
         ),
         new RepaintBoundary(
           child: new SizedBox(
             height: 72.0,
             child: new Hundreds(
-              dependencies: dependencies,
+              dependencies: bloc.dependencies,
             ),
           ),
         ),

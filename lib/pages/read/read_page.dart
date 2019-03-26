@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mk/blocs/timer_bloc.dart';
 import 'package:flutter_mk/helper/timer_page.dart';
 import 'package:flutter_mk/models/user_book.dart';
 import 'package:flutter_mk/repositories/read_repository.dart';
@@ -19,16 +20,16 @@ class ReadPage extends StatefulWidget {
 class _ReadPageState extends State<ReadPage> {
   var pageController = TextEditingController();
   var focusNode = FocusNode();
-  Dependencies dependencies;
+  var  timerbloc;
   int startAt = 0;
 
   @override
   void initState() {
+   
     if (widget.userBook.recentRecord?.status == 1) {
       startAt = widget.userBook.recentRecord?.startAt;
     }
-    dependencies = Dependencies(
-        startAt: startAt, duration: widget.userBook.recentRecord?.duration);
+     timerbloc =TimerBloc (startAt , widget.userBook.recentRecord?.duration);
     super.initState();
   }
 
@@ -52,7 +53,7 @@ class _ReadPageState extends State<ReadPage> {
               SizedBox(
                 height: 200,
                 child: TimerPage(
-                  dependencies: dependencies,
+                  bloc : timerbloc,
                 ),
               ),
               Row(
@@ -144,7 +145,6 @@ class _ReadPageState extends State<ReadPage> {
                           .then((value) {
                         this.setState(() {
                           startAt = 0;
-                          dependencies
                         });
                         Navigator.pop(context);
                       });

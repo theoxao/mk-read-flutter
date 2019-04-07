@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mk/blocs/read/music_bloc.dart';
 import 'package:flutter_mk/blocs/timer_bloc.dart';
 import 'package:flutter_mk/helper/timer_page.dart';
+import 'package:flutter_mk/models/music.dart';
 import 'package:flutter_mk/models/user_book.dart';
 import 'package:flutter_mk/repositories/read_repository.dart';
 import 'package:flutter_mk/views/read/book_detail_card.dart';
@@ -19,17 +21,18 @@ class ReadPage extends StatefulWidget {
 
 class _ReadPageState extends State<ReadPage> {
   var pageController = TextEditingController();
+  MusicBloc musicBloc;
   var focusNode = FocusNode();
-  var  timerbloc;
+  var timerbloc;
   int startAt = 0;
 
   @override
   void initState() {
-   
+    musicBloc = MusicBloc();
     if (widget.userBook.recentRecord?.status == 1) {
       startAt = widget.userBook.recentRecord?.startAt;
     }
-     timerbloc =TimerBloc (startAt , widget.userBook.recentRecord?.duration);
+    timerbloc = TimerBloc(startAt, widget.userBook.recentRecord?.duration);
     super.initState();
   }
 
@@ -53,7 +56,7 @@ class _ReadPageState extends State<ReadPage> {
               SizedBox(
                 height: 200,
                 child: TimerPage(
-                  bloc : timerbloc,
+                  bloc: timerbloc,
                 ),
               ),
               Row(
@@ -82,7 +85,7 @@ class _ReadPageState extends State<ReadPage> {
                           Text("环境音")
                         ],
                       ),
-                      //TODO music list
+                      musicList
                     ],
                   ),
                 ),
@@ -98,8 +101,8 @@ class _ReadPageState extends State<ReadPage> {
                   RaisedButton(
                     onPressed: () {
                       _showPageInput();
-//                    String page = pageController.text;
-//                      ReadRepository(context).readOperation(widget.logId, widget.userBook.id, 0, page);
+                      //                    String page = pageController.text;
+                      //                      ReadRepository(context).readOperation(widget.logId, widget.userBook.id, 0, page);
                     },
                     child: Text("结束阅读"),
                   ),
@@ -154,6 +157,22 @@ class _ReadPageState extends State<ReadPage> {
           );
         });
   }
+
+  Widget get musicList => StreamBuilder(
+        stream: musicBloc.stream,
+        builder: (context, AsyncSnapshot<List<Music>> snapshot) {
+            if (snapshot.hasData && snapshot.data.length>0) {
+              var list = snapshot.data;
+              return Column(
+                children: list.map((music){
+                    return Text(music.name);
+                }).toList(),
+              );
+            }
+            return Container();
+          
+        },
+      );
 }
 
 class _SystemPadding extends StatelessWidget {

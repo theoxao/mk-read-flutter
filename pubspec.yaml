@@ -49,6 +49,7 @@ dependencies:
   flushbar: 1.2.4
   super_tooltip: 0.9.0
   image_picker: 0.4.12+1
+  audioplayer: 0.5.2
 
 
 dev_dependencies:

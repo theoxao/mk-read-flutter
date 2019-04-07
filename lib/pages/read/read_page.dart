@@ -6,6 +6,7 @@ import 'package:flutter_mk/models/music.dart';
 import 'package:flutter_mk/models/user_book.dart';
 import 'package:flutter_mk/repositories/read_repository.dart';
 import 'package:flutter_mk/views/read/book_detail_card.dart';
+import 'package:audioplayer/audioplayer.dart';
 
 class ReadPage extends StatefulWidget {
   final String logId;
@@ -22,8 +23,10 @@ class ReadPage extends StatefulWidget {
 class _ReadPageState extends State<ReadPage> {
   var pageController = TextEditingController();
   MusicBloc musicBloc;
+  AudioPlayer audioPlayer = AudioPlayer();
+  int playingId = 0;
   var focusNode = FocusNode();
-  var timerbloc;
+  TimerBloc timerbloc;
   int startAt = 0;
 
   @override
@@ -38,6 +41,8 @@ class _ReadPageState extends State<ReadPage> {
 
   @override
   void dispose() {
+    timerbloc.close();
+    musicBloc.close();
     super.dispose();
   }
 
@@ -161,16 +166,49 @@ class _ReadPageState extends State<ReadPage> {
   Widget get musicList => StreamBuilder(
         stream: musicBloc.stream,
         builder: (context, AsyncSnapshot<List<Music>> snapshot) {
-            if (snapshot.hasData && snapshot.data.length>0) {
-              var list = snapshot.data;
-              return Column(
-                children: list.map((music){
-                    return Text(music.name);
-                }).toList(),
-              );
-            }
-            return Container();
-          
+          if (snapshot.hasData && snapshot.data.length > 0) {
+            var list = snapshot.data;
+            return Column(
+              children: list.map((music) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Text(music.name),
+                          Expanded(
+                            child: Container(),
+                          ),
+                          GestureDetector(
+                            onTap: () async {
+                              await audioPlayer.stop();
+                              if (playingId == music.id) {
+                                this.setState(() {
+                                  playingId = 0;
+                                });
+                              } else {
+                                await audioPlayer.play(music.path);
+                                this.setState(() {
+                                  playingId = music.id;
+                                });
+                              }
+                            },
+                            child: Icon(playingId == music.id
+                                ? Icons.pause
+                                : Icons.play_arrow),
+                          )
+                        ],
+                      ),
+                      Divider(),
+                    ],
+                  ),
+                );
+              }).toList(),
+            );
+          }
+          return Container();
         },
       );
 }

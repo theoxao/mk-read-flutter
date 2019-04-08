@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_mk/pages/read/read_page.dart';
 import 'package:flutter_mk/pages/read/search_book_page.dart';
 import 'package:platform/platform.dart';
 import 'common/commons.dart';
 import 'package:flutter_mk/pages/read/add_book_page.dart';
 import 'package:flutter_mk/pages/read/home_page.dart';
+import 'package:fluwx/fluwx.dart' as wx;
 
 final Platform platform = const LocalPlatform();
 
@@ -30,6 +30,17 @@ class AppState extends State<App> {
   @override
   void initState() {
     super.initState();
+    _initFluwx();
+  }
+
+  void _initFluwx() async {
+    await wx.register(
+        appId: "wxc79d3cbef456e552",
+        doOnAndroid: true,
+        doOnIOS: true,
+        enableMTA: false);
+    var result = await wx.isWeChatInstalled();
+    print("wechat installed $result");
   }
 
   @override

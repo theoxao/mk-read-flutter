@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mk/blocs/read/music_bloc.dart';
 import 'package:flutter_mk/blocs/timer_bloc.dart';
+import 'package:flutter_mk/common/commons.dart';
+import 'package:flutter_mk/helper/ensure_visiable_helper.dart';
 import 'package:flutter_mk/helper/timer_page.dart';
 import 'package:flutter_mk/models/music.dart';
 import 'package:flutter_mk/models/user_book.dart';
+import 'package:flutter_mk/pages/read/add_excerpt_page.dart';
 import 'package:flutter_mk/repositories/read_repository.dart';
 import 'package:flutter_mk/views/read/book_detail_card.dart';
 import 'package:audioplayer/audioplayer.dart';
@@ -69,7 +72,9 @@ class _ReadPageState extends State<ReadPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   RaisedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      await showAddExcerptSheet();
+                    },
                     child: Text("阅读摘录"),
                   ),
                   RaisedButton(
@@ -211,6 +216,53 @@ class _ReadPageState extends State<ReadPage> {
           return Container();
         },
       );
+
+  Future showAddExcerptSheet() async {
+    var _controller = TextEditingController();
+    var _focusNode = FocusNode();
+
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    "添加摘录",
+                    style: bookNameStyle,
+                  ),
+                  EnsureVisibleWhenFocused(
+                    child: Card(
+                      child: TextField(
+                        controller: _controller,
+                        focusNode: _focusNode,
+                        keyboardType: TextInputType.numberWithOptions(),
+                        textAlign: TextAlign.center,
+                        decoration: InputDecoration(
+                            labelText: "当前页数",
+                            border: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 0, style: BorderStyle.none),
+                            )),
+                      ),
+                    ),
+                    focusNode: _focusNode,
+                  ),
+                  Expanded(
+                    child: Container(),
+                  ),
+                  RaisedButton(
+                    child: Text("click me "),
+                    onPressed: () {},
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
 }
 
 class _SystemPadding extends StatelessWidget {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluwx/fluwx.dart' as wx;
+import 'package:fluwx/fluwx.dart';
 
 class MineWidget extends StatefulWidget {
   const MineWidget();
@@ -34,9 +35,11 @@ class MineState extends State<MineWidget> {
         children: <Widget>[
           RaisedButton(
             child: Text("click me"),
-            onPressed: () {
-              wx.sendAuth(
-                  scope: "snsapi_userinfo", state: "wechat_sdk_demo_test");
+            onPressed: () async {
+             await wx.sendAuth(
+                  scope: "snsapi_userinfo", state: "wechat_sdk_demo_test").then((data){
+                print(data);
+              });
             },
           ),
           Text(code)

@@ -35,10 +35,8 @@ class AppState extends State<App> {
 
   void _initFluwx() async {
     await wx.register(
-        appId: "wxc79d3cbef456e552",
-        doOnAndroid: true,
-        doOnIOS: true,
-        enableMTA: false);
+        appId: "wxd930ea5d5a258f4f",
+        doOnAndroid: true,);
     var result = await wx.isWeChatInstalled();
     print("wechat installed $result");
   }

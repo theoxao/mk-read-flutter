@@ -22,6 +22,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   dio: ^1.0.13
+#  webview_flutter: 0.2.0
+  flutter_webview_plugin: 0.3.3
   barcode_scan: ^0.0.8
   shimmer: 1.0.0
   common_utils: 1.0.9
@@ -49,7 +51,7 @@ dependencies:
   super_tooltip: 0.9.0
   image_picker: 0.4.12+1
   audioplayer: 0.5.2 
-  fluwx: 0.6.1
+#  fluwx: 0.6.1
 
 
 dev_dependencies:

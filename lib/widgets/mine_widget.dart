@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fluwx/fluwx.dart' as wx;
-import 'package:fluwx/fluwx.dart';
+//import 'package:fluwx/fluwx.dart' as wx;
+//import 'package:fluwx/fluwx.dart';
 
 class MineWidget extends StatefulWidget {
   const MineWidget();
@@ -15,11 +15,11 @@ class MineState extends State<MineWidget> {
   @override
   void initState() {
     super.initState();
-    wx.responseFromAuth.listen((data) {
-      setState(() {
-        this.code = data.toString();
-      });
-    });
+//    wx.responseFromAuth.listen((data) {
+//      setState(() {
+//        this.code = data.toString();
+//      });
+//    });
   }
 
   @override
@@ -36,10 +36,10 @@ class MineState extends State<MineWidget> {
           RaisedButton(
             child: Text("click me"),
             onPressed: () async {
-             await wx.sendAuth(
-                  scope: "snsapi_userinfo", state: "wechat_sdk_demo_test").then((data){
-                print(data);
-              });
+//             await wx.sendAuth(
+//                  scope: "snsapi_userinfo", state: "wechat_sdk_demo_test").then((data){
+//                print(data);
+//              });
             },
           ),
           Text(code)

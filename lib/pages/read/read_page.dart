@@ -9,7 +9,6 @@ import 'package:flutter_mk/models/user_book.dart';
 import 'package:flutter_mk/pages/read/add_excerpt_page.dart';
 import 'package:flutter_mk/repositories/read_repository.dart';
 import 'package:flutter_mk/views/read/book_detail_card.dart';
-import 'package:audioplayer/audioplayer.dart';
 
 class ReadPage extends StatefulWidget {
   final String logId;
@@ -26,7 +25,7 @@ class ReadPage extends StatefulWidget {
 class _ReadPageState extends State<ReadPage> {
   var pageController = TextEditingController();
   MusicBloc musicBloc;
-  AudioPlayer audioPlayer = AudioPlayer();
+//  AudioPlayer audioPlayer = AudioPlayer();
   int playingId = 0;
   var focusNode = FocusNode();
   TimerBloc timerbloc;
@@ -188,13 +187,13 @@ class _ReadPageState extends State<ReadPage> {
                           ),
                           GestureDetector(
                             onTap: () async {
-                              await audioPlayer.stop();
+//                              await audioPlayer.stop();
                               if (playingId == music.id) {
                                 this.setState(() {
                                   playingId = 0;
                                 });
                               } else {
-                                await audioPlayer.play(music.path);
+//                                await audioPlayer.play(music.path);
                                 this.setState(() {
                                   playingId = music.id;
                                 });

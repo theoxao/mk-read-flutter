@@ -12,7 +12,6 @@ import 'package:flutter_mk/models/book.dart';
 import 'package:flutter_mk/models/shelf_models.dart';
 import 'package:flutter_mk/pages/read/select_book_page.dart';
 import 'package:flutter_mk/repositories/read_repository.dart';
-import 'package:image_picker/image_picker.dart';
 
 class AddBookPage extends StatefulWidget {
   @override
@@ -198,7 +197,7 @@ class AddBookState extends State<AddBookPage> {
                                         children: <Widget>[
                                           GestureDetector(
                                             onTap: () {
-                                              getImage(ImageSource.camera);
+//                                              getImage(ImageSource.camera);
                                               Navigator.pop(context);
                                             },
                                             child: SizedBox(
@@ -213,7 +212,7 @@ class AddBookState extends State<AddBookPage> {
                                           Divider(),
                                           GestureDetector(
                                             onTap: () {
-                                              getImage(ImageSource.gallery);
+//                                              getImage(ImageSource.gallery);
                                               Navigator.pop(context);
                                             },
                                             child: SizedBox(
@@ -400,13 +399,13 @@ class AddBookState extends State<AddBookPage> {
     );
   }
 
-  Future getImage(ImageSource source) async {
-    var image = await ImagePicker.pickImage(source: source);
-
-    setState(() {
-      _image = image;
-    });
-  }
+//  Future getImage(ImageSource source) async {
+//    var image = await ImagePicker.pickImage(source: source);
+//
+//    setState(() {
+//      _image = image;
+//    });
+//  }
 
   void addBook() {
     var controlMap = _requestBody.controllerMap;

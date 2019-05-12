@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mk/common/commons.dart';
-import 'package:image_picker/image_picker.dart';
 
 class NewPostPage extends StatefulWidget {
   final groupId;
@@ -46,7 +45,7 @@ class _NewPostPageState extends State<NewPostPage> {
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {
-                          getImage(ImageSource.camera);
+//                          getImage(ImageSource.camera);
                           Navigator.pop(context);
                         },
                         child: SizedBox(
@@ -61,7 +60,7 @@ class _NewPostPageState extends State<NewPostPage> {
                       Divider(),
                       GestureDetector(
                         onTap: () {
-                          getImage(ImageSource.gallery);
+//                          getImage(ImageSource.gallery);
                           Navigator.pop(context);
                         },
                         child: SizedBox(
@@ -115,11 +114,11 @@ class _NewPostPageState extends State<NewPostPage> {
     );
   }
 
-  Future getImage(ImageSource source) async {
-    var image = await ImagePicker.pickImage(source: source);
-
-    setState(() {
-      files.add(image);
-    });
-  }
+//  Future getImage(ImageSource source) async {
+//    var image = await ImagePicker.pickImage(source: source);
+//
+//    setState(() {
+//      files.add(image);
+//    });
+//  }
 }

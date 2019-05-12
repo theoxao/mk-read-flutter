@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 String get host => "http://api.theoxao.com";
 
 
-Options get getOptions {
+BaseOptions get getOptions {
     Map<String, dynamic> headers = Map();
     headers['token'] = "70843bc3-794a-4d99-a05a-c4e6487036bd";
-    var _options = Options(headers: headers);
+    var _options = BaseOptions(headers: headers);
     return _options;
 }
 
-Options getOption(String path){
+BaseOptions getOption(String path){
     var options = getOptions;
-    options.path=path;
+    options.baseUrl=path;
     print("requesting at $path");
     return options;
 }

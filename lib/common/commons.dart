@@ -1,3 +1,5 @@
+import 'dart:ui' as prefix0;
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -46,6 +48,8 @@ double get padding32 => 32;
 double get coverScale => coverWidth / coverHeight;
 
 double get coverWidth => 95;
+
+double get windowWidth =>prefix0.window.physicalSize.width;
 
 double get coverHeight => 135;
 

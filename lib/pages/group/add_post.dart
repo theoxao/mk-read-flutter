@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'dart:ui' as prefix0;
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mk/common/commons.dart';
 import 'package:flutter_mk/helper/ensure_visiable_helper.dart';
+import 'package:flutter_mk/repositories/group_repository.dart';
 import 'package:image_picker/image_picker.dart';
 
 class NewPostPage extends StatefulWidget {
@@ -30,8 +32,8 @@ class _NewPostPageState extends State<NewPostPage> {
         child: Image.file(
           file,
           fit: BoxFit.cover,
-          width: prefix0.window.physicalSize.width / 9,
-          height: prefix0.window.physicalSize.width / 9,
+          width: window.physicalSize.width / 9,
+          height: window.physicalSize.width / 9,
         ),
       );
     }).toList();
@@ -69,7 +71,11 @@ class _NewPostPageState extends State<NewPostPage> {
                 ),
                 RaisedButton(
                   onPressed: () {
-
+                    GroupRepository(context)
+                        .createPost(widget.groupId, contentCtrl.text, files)
+                        .then((value) {
+                      Navigator.of(context).pop();
+                    });
                   },
                   child: Text("提交"),
                 )
@@ -87,7 +93,7 @@ class _NewPostPageState extends State<NewPostPage> {
       setState(() {
         files.add(image);
       });
-    }catch (e){
+    } catch (e) {
       print("select image cancelled");
     }
   }

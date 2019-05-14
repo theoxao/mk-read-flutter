@@ -1,3 +1,6 @@
+import 'dart:io' as prefix0;
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_mk/common/commons.dart';
 import 'package:flutter_mk/models/group_models.dart';
@@ -30,23 +33,37 @@ class GroupRepository {
     return Group.fromJsonMap(response.data["data"]);
   }
 
-  Future<List<Post>> fetchPostList(String groupId) async{
-      String path =  "$host/group/post/list?id=$groupId";
-      var response = await request.get(getOption(path));
-      List<Post> list = [];
-      for (var post in response.data["data"]){
-        list.add(Post.fromJsonMap(post));
-      }
-      return list;
+  Future<List<Post>> fetchPostList(String groupId) async {
+    String path = "$host/group/post/list?id=$groupId";
+    var response = await request.get(getOption(path));
+    List<Post> list = [];
+    for (var post in response.data["data"]) {
+      list.add(Post.fromJsonMap(post));
+    }
+    return list;
   }
 
   Future<List<Activity>> fetchActivities(String groupId) async {
-      String path = "$host/group/group/activity?groupId=$groupId";
-      var response =await request.get(getOption(path));
-      List<Activity> list =[];
-      for (var act in response.data["data"]){
-        list.add(Activity.fromJson(act));
-      }
-      return list;
+    String path = "$host/group/group/activity?groupId=$groupId";
+    var response = await request.get(getOption(path));
+    List<Activity> list = [];
+    for (var act in response.data["data"]) {
+      list.add(Activity.fromJson(act));
+    }
+    return list;
+  }
+
+  Future<Post> createPost(
+      String groupId, String content, List<File> files) async {
+    String path = "$host/group/post/post";
+
+    var data = new FormData.from({
+      "groupId": groupId,
+      "content": content,
+      "imageFiles":
+          files.map((file) => UploadFileInfo(file, file.absolute.path))
+    });
+    var response = await request.post(getOption(path), data: data);
+    return Post.fromJsonMap(response.data['data']);
   }
 }

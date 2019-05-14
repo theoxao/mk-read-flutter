@@ -30,8 +30,8 @@ class _NewPostPageState extends State<NewPostPage> {
         child: Image.file(
           file,
           fit: BoxFit.cover,
-          width: prefix0.window.physicalSize.width/9,
-          height: prefix0.window.physicalSize.width/9,
+          width: prefix0.window.physicalSize.width / 9,
+          height: prefix0.window.physicalSize.width / 9,
         ),
       );
     }).toList();
@@ -67,6 +67,12 @@ class _NewPostPageState extends State<NewPostPage> {
                     ]),
                   ),
                 ),
+                RaisedButton(
+                  onPressed: () {
+
+                  },
+                  child: Text("提交"),
+                )
               ],
             ),
           )
@@ -76,14 +82,18 @@ class _NewPostPageState extends State<NewPostPage> {
   }
 
   Future getImage(ImageSource source) async {
-    var image = await ImagePicker.pickImage(source: source);
-    setState(() {
-      files.add(image);
-    });
+    try {
+      var image = await ImagePicker.pickImage(source: source);
+      setState(() {
+        files.add(image);
+      });
+    }catch (e){
+      print("select image cancelled");
+    }
   }
 
   Widget gridView(List<Widget> list) {
-    if (list.length <9) {
+    if (list.length < 9) {
       rows.add(GestureDetector(
         onTap: () {
           showDialog(
@@ -138,8 +148,8 @@ class _NewPostPageState extends State<NewPostPage> {
         },
         child: Image.asset(
           "image/ic_add_cover.png",
-          width:windowWidth/9 ,
-          height: windowWidth/9,
+          width: windowWidth / 9,
+          height: windowWidth / 9,
         ),
       ));
     }

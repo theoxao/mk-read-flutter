@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mk/models/post_model.dart';
 
@@ -13,7 +15,11 @@ class PostView extends StatelessWidget {
       children: <Widget>[
         Row(
           children: <Widget>[
-            Image.network(post.avatarUrl,height: 20, width: 20,),
+            Image.network(
+              post.avatarUrl,
+              height: 20,
+              width: 20,
+            ),
             Text(post.nickName),
             Expanded(child: Container()),
             Icon(Icons.more_horiz),
@@ -25,7 +31,15 @@ class PostView extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Text(post.content),
-              Image.network(post.images[0])
+              Column(
+                children: post.images.map((url) {
+                  return Image.network(
+                    post.images[0],
+                    width: window.physicalSize.width / 9,
+                    height: window.physicalSize.width / 9,
+                  );
+                }).toList(),
+              ),
             ],
           ),
         )

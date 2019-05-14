@@ -1,6 +1,7 @@
 import 'dart:io' as prefix0;
 import 'dart:io';
 
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_mk/common/commons.dart';
 import 'package:flutter_mk/models/group_models.dart';
@@ -12,6 +13,19 @@ class GroupRepository {
   EventRequest request;
 
   GroupRepository(BuildContext context) : request = EventRequest(context);
+  
+  Future<Group> create( String name ,String remark, File imageFile ) async{
+	print("creating group");
+	String path = host+"/group/group/create";
+	FormData formData = new FormData.from({
+    "name": name,
+    "remark": remark,
+    "imageFile": new UploadFileInfo(imageFile , imageFile.absolute.path ),
+	});
+	var response = await request.post(getOption(path),data: formData);
+	print(response);
+	return Group.fromJsonMap(response.data['data']);
+  }
 
   Future<List<Group>> fetchGroupList() async {
     print("requesting group list");

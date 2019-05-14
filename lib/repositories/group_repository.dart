@@ -75,9 +75,11 @@ class GroupRepository {
       "groupId": groupId,
       "content": content,
       "imageFiles":
-          files.map((file) => UploadFileInfo(file, file.absolute.path))
+          files.map((file) => UploadFileInfo(file, file.absolute.path)).toList()
     });
+	print(data);
     var response = await request.post(getOption(path), data: data);
+	print(response);
     return Post.fromJsonMap(response.data['data']);
   }
 }

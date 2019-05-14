@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:ui' as prefix0;
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -26,14 +25,27 @@ class _NewPostPageState extends State<NewPostPage> {
   @override
   Widget build(BuildContext context) {
     rows = files.map<Widget>((file) {
-      print(prefix0.window.physicalSize.width);
       return Padding(
         padding: const EdgeInsets.all(4.0),
-        child: Image.file(
-          file,
-          fit: BoxFit.cover,
-          width: window.physicalSize.width / 9,
-          height: window.physicalSize.width / 9,
+        child: Draggable(
+          maxSimultaneousDrags: 1,
+          onDragStarted: () {},
+          child: Image.file(
+            file,
+            fit: BoxFit.cover,
+            width: window.physicalSize.width / 9,
+            height: window.physicalSize.width / 9,
+          ),
+          feedback: Image.file(
+            file,
+            fit: BoxFit.cover,
+            width: window.physicalSize.width / 8.8,
+            height: window.physicalSize.width / 8.8,
+          ),
+          childWhenDragging: Container(
+            width: window.physicalSize.width / 9,
+            height: window.physicalSize.width / 9,
+          ),
         ),
       );
     }).toList();
@@ -78,7 +90,17 @@ class _NewPostPageState extends State<NewPostPage> {
                     });
                   },
                   child: Text("提交"),
-                )
+                ),
+                DragTarget(
+                  builder: (BuildContext context, List candidateData,
+                      List rejectedData) {
+                    return Container(
+                      color: Colors.red,
+                      height: 48,
+                      child:Text("拖到此处删除"),
+                    );
+                  },
+                ),
               ],
             ),
           )
@@ -164,7 +186,7 @@ class _NewPostPageState extends State<NewPostPage> {
 
     for (var i = 0; i < list.length; i += 3) {
       var value =
-          list.sublist(i, i + 3 < list.length ? i + 3 : list.length).toList();
+      list.sublist(i, i + 3 < list.length ? i + 3 : list.length).toList();
       array.add(value);
     }
 

@@ -143,7 +143,7 @@ class _GroupDetailState extends State<GroupDetail> {
                 child: FloatingActionButton(
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                      return NewPostPage();
+                      return NewPostPage(groupId:widget.id);
                     }));
                   },
                   child: Icon(Icons.add_a_photo),

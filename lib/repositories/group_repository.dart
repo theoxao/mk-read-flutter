@@ -13,18 +13,18 @@ class GroupRepository {
   EventRequest request;
 
   GroupRepository(BuildContext context) : request = EventRequest(context);
-  
-  Future<Group> create( String name ,String remark, File imageFile ) async{
-	print("creating group");
-	String path = host+"/group/group/create";
-	FormData formData = new FormData.from({
-    "name": name,
-    "remark": remark,
-    "imageFile": new UploadFileInfo(imageFile , imageFile.absolute.path ),
-	});
-	var response = await request.post(getOption(path),data: formData);
-	print(response);
-	return Group.fromJsonMap(response.data['data']);
+
+  Future<Group> create(String name, String remark, File imageFile) async {
+    print("creating group");
+    String path = host + "/group/group/create";
+    FormData formData = new FormData.from({
+      "name": name,
+      "remark": remark,
+      "imageFile": new UploadFileInfo(imageFile, imageFile.absolute.path),
+    });
+    var response = await request.post(getOption(path), data: formData);
+    print(response);
+    return Group.fromJsonMap(response.data['data']);
   }
 
   Future<List<Group>> fetchGroupList() async {
@@ -77,9 +77,20 @@ class GroupRepository {
       "imageFiles":
           files.map((file) => UploadFileInfo(file, file.absolute.path)).toList()
     });
-	print(data);
+    print(data);
     var response = await request.post(getOption(path), data: data);
-	print(response);
+    print(response);
     return Post.fromJsonMap(response.data['data']);
+  }
+
+  Future<List<String>> likeOperate(String postId, int operate) async {
+    String path =
+        "$host/group/post/like_operate?postId=$postId&operate=$operate";
+    var response = await request.post(getOption(path));
+    List<String>list=[];
+    for (var act in response.data["data"]) {
+      list.add(act);
+    }
+    return list;
   }
 }

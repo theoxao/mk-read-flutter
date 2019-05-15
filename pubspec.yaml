@@ -33,7 +33,7 @@ dependencies:
 #  liquid_pull_to_refresh: 1.0.2
   flutter_image_compress: ^0.4.0
   # ota_update: 0.1.2
-#  flutter_villains: 1.2.0    #transtion animation
+  flutter_villains: 1.2.0    #transtion animation
   font_awesome_flutter: 8.2.0   #fa
   lazy_load_scrollview: 0.0.2
   fluro: 1.4.0  # route framework  see `https://pub.dartlang.org/packages/fluro`

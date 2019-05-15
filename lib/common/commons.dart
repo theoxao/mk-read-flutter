@@ -5,20 +5,27 @@ import 'package:flutter/material.dart';
 
 String get host => "http://api.theoxao.com";
 
-
 BaseOptions get getOptions {
-    Map<String, dynamic> headers = Map();
-    headers['token'] = "70843bc3-794a-4d99-a05a-c4e6487036bd";
-    var _options = BaseOptions(headers: headers);
-    return _options;
+  Map<String, dynamic> headers = Map();
+  headers['token'] = "70843bc3-794a-4d99-a05a-c4e6487036bd";
+  var _options = BaseOptions(headers: headers);
+  return _options;
 }
 
-BaseOptions getOption(String path){
-    var options = getOptions;
-    options.baseUrl=path;
-    print("requesting at $path");
-    return options;
+BaseOptions getOption(String path) {
+  var options = getOptions;
+  options.baseUrl = path;
+  print("requesting at $path");
+  return options;
 }
+
+String get defaultCompress => imageCompress20;
+
+String get imageCompress20 => "compress_20";
+
+String get imageCompress30 => "compress_30";
+
+String get imageCompress50 => "compress_50";
 
 get primaryColor => Colors.blue;
 
@@ -44,25 +51,28 @@ double get padding16 => 16;
 
 double get padding32 => 32;
 
-
 double get coverScale => coverWidth / coverHeight;
 
 double get coverWidth => 95;
 
-double get windowWidth =>prefix0.window.physicalSize.width;
+double get windowWidth => prefix0.window.physicalSize.width;
 
 double get coverHeight => 135;
 
-TextStyle get bookNameStyle =>
-        TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: primaryTextSize,
-                color: Colors.black,
-                decoration: TextDecoration.none);
+TextStyle get linkStyle => TextStyle(
+    fontWeight: FontWeight.w700,
+    fontSize: primaryTextSize,
+    color: Colors.black45,
+    decoration: TextDecoration.none);
 
-TextStyle get bookAuthorStyle =>
-        TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: primaryTextSize,
-                color: Colors.black54,
-                decoration: TextDecoration.none);
+TextStyle get bookNameStyle => TextStyle(
+    fontWeight: FontWeight.normal,
+    fontSize: primaryTextSize,
+    color: Colors.black,
+    decoration: TextDecoration.none);
+
+TextStyle get bookAuthorStyle => TextStyle(
+    fontWeight: FontWeight.normal,
+    fontSize: primaryTextSize,
+    color: Colors.black54,
+    decoration: TextDecoration.none);

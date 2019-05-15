@@ -94,11 +94,12 @@ class _GroupDetailState extends State<GroupDetail> {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              CachedNetworkImage(
-                                imageUrl: group.image,
-                                width: 100,
-                                height: 100,
-                              ),
+                                 CachedNetworkImage(
+                                  imageUrl: group.image,
+                                  fit: BoxFit.cover,
+                                  width: 100,
+                                  height: 100,
+                                ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: Column(
@@ -109,13 +110,27 @@ class _GroupDetailState extends State<GroupDetail> {
                                       textAlign: TextAlign.start,
                                       style: TextStyle(
                                           fontSize: 24,
+                                          shadows: [
+                                            Shadow(
+                                              color: Colors.black38,
+                                              blurRadius: 1.5,
+                                            )
+                                          ],
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Text(
                                       group.remark,
                                       style: TextStyle(
-                                          fontSize: 22, color: Colors.white),
+                                        shadows: [
+                                          Shadow(
+                                            color: Colors.black38,
+                                            blurRadius: 1.5,
+                                          )
+                                        ],
+                                        fontSize: 22,
+                                        color: Colors.white,
+                                      ),
                                     )
                                   ],
                                 ),
@@ -135,12 +150,11 @@ class _GroupDetailState extends State<GroupDetail> {
                       child: GroupDetailWidget(widget.id),
                     ),
                   )),
-				   SliverToBoxAdapter(
+                  SliverToBoxAdapter(
                       child: Container(
                     color: Colors.white,
-					height:20,
-                   )
-				  ),
+                    height: 20,
+                  )),
                 ],
               ),
               Positioned(

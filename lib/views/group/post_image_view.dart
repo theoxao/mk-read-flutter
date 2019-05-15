@@ -4,9 +4,8 @@ import 'package:flutter_mk/common/commons.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class PostImageView extends StatefulWidget {
-  var images;
-  var _currentIndex;
-
+  final List<String> images;
+  final int _currentIndex;
 
   PostImageView(this.images, this._currentIndex);
 
@@ -15,19 +14,18 @@ class PostImageView extends StatefulWidget {
 }
 
 class _PostImageViewState extends State<PostImageView> {
-
   var _currentIndex;
-
 
   _PostImageViewState(this._currentIndex);
 
   @override
   Widget build(BuildContext context) {
+    print(_currentIndex);
     return Container(
       child: Hero(
-        tag: "postImage"+_currentIndex.toString(),
+        tag: widget.images[_currentIndex],
         child: CachedNetworkImage(
-          imageUrl: widget.images[_currentIndex] ,
+          imageUrl: widget.images[_currentIndex],
           placeholder: (context, url) {
             return SpinKitThreeBounce(
               color: primaryColor,

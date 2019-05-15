@@ -23,21 +23,18 @@ class PostView extends StatelessWidget {
           }));
         },
         child: Hero(
-          tag: "postImage",
-          child: Hero(
-            tag: "postImage"+index.toString(),
-            child: CachedNetworkImage(
-              imageUrl: url + "?x-oss-process=style/compress",
-              width: window.physicalSize.width / 9,
-              height: window.physicalSize.width / 9,
-              fit: BoxFit.cover,
-              placeholder: (context, url) {
-                return SpinKitThreeBounce(
-                  color: primaryColor,
-                  size: primaryTextSize,
-                );
-              },
-            ),
+          tag: "postImage"+index.toString(),
+          child: CachedNetworkImage(
+            imageUrl: url + "?x-oss-process=style/compress",
+            width: window.physicalSize.width / 9,
+            height: window.physicalSize.width / 9,
+            fit: BoxFit.cover,
+            placeholder: (context, url) {
+              return SpinKitThreeBounce(
+                color: primaryColor,
+                size: primaryTextSize,
+              );
+            },
           ),
         ),
       ));

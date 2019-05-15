@@ -135,6 +135,12 @@ class _GroupDetailState extends State<GroupDetail> {
                       child: GroupDetailWidget(widget.id),
                     ),
                   )),
+				   SliverToBoxAdapter(
+                      child: Container(
+                    color: Colors.white,
+					height:20,
+                   )
+				  ),
                 ],
               ),
               Positioned(

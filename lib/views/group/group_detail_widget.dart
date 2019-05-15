@@ -58,7 +58,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget>
     return Card(
       elevation: 6,
       child: Container(
-        height: 1000,
+		color:Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -78,11 +78,10 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget>
                 ],
               ),
               Divider(),
-              SingleChildScrollView(
-                child: Container(
-                  child: pageView,
-                ),
-              )
+			  Container(
+				color:Colors.white,
+				child: pageView,
+			  ),
             ],
           ),
         ),

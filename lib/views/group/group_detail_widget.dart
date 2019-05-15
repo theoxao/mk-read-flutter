@@ -78,8 +78,10 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget>
                 ],
               ),
               Divider(),
-              Container(
-                child: pageView,
+              SingleChildScrollView(
+                child: Container(
+                  child: pageView,
+                ),
               )
             ],
           ),

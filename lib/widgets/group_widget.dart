@@ -1,15 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mk/blocs/group/gourp_bloc.dart';
 import 'package:flutter_mk/common/commons.dart';
 import 'package:flutter_mk/models/group_models.dart';
 import 'package:flutter_mk/pages/group/add_group_page.dart';
 import 'package:flutter_mk/pages/group/group_detail_page.dart';
-import 'package:flutter_mk/repositories/group_repository.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class GroupListWidget extends StatefulWidget {
-
-const GroupListWidget();
+  const GroupListWidget();
 
   @override
   State<StatefulWidget> createState() => GroupListState();
@@ -30,11 +29,12 @@ class GroupListState extends State<GroupListWidget> {
                 padding: const EdgeInsets.all(8.0),
                 child: Icon(Icons.add),
               ),
-              onTap: ()  {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context){
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) {
                   return AddGroupPage();
                 }));
-                  },
+              },
             )
           ],
         ),
@@ -63,8 +63,8 @@ class GroupListState extends State<GroupListWidget> {
                                   child: Column(
                                     children: <Widget>[
                                       Stack(children: <Widget>[
-                                        Image.network(
-                                          group.image,
+                                        CachedNetworkImage(
+                                          imageUrl: group.image,
                                           fit: BoxFit.fitWidth,
                                           height: 100,
                                           width: double.infinity,

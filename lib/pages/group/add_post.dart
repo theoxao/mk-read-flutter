@@ -21,6 +21,7 @@ class _NewPostPageState extends State<NewPostPage> {
   var contentNode = FocusNode();
   var contentCtrl = TextEditingController();
   List<Widget> rows = [];
+  var accepted = false;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +47,9 @@ class _NewPostPageState extends State<NewPostPage> {
             width: window.physicalSize.width / 9,
             height: window.physicalSize.width / 9,
           ),
+          data: [
+            "image"
+          ],
         ),
       );
     }).toList();
@@ -99,6 +103,13 @@ class _NewPostPageState extends State<NewPostPage> {
                       height: 48,
                       child:Text("拖到此处删除"),
                     );
+                  },
+                  onWillAccept: (data){
+                    print(data);
+                    return true;
+                  },
+                  onAccept:(data){
+                    accepted =true;
                   },
                 ),
               ],

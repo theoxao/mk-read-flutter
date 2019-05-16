@@ -27,7 +27,7 @@ class _PostViewState extends State<PostView> {
   Widget build(BuildContext context) {
     var array = [];
     var list = post.images.map((url) {
-      var isGif= url.endsWith("gif");
+      var isGif = url.endsWith("gif");
       return GestureDetector(
         onTap: () {
           Navigator.push(context, HeroDialogRoute((context) {
@@ -73,11 +73,16 @@ class _PostViewState extends State<PostView> {
                       );
                     },
                   ),
-                  isGif?Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Text(" GIF " ,style: TextStyle(backgroundColor: Colors.white54),),
-                  ):Container()
+                  isGif
+                      ? Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: Text(
+                            " GIF ",
+                            style: TextStyle(backgroundColor: Colors.white54),
+                          ),
+                        )
+                      : Container()
                 ],
               ),
             ),
@@ -109,7 +114,7 @@ class _PostViewState extends State<PostView> {
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 child: Container(
-                  width: window.physicalSize.width / 3.3,
+                  width: window.physicalSize.width / 3.5,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -171,7 +176,15 @@ class _PostViewState extends State<PostView> {
                             child: Icon(Icons.question_answer),
                           )
                         ],
-                      )
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          Card(
+                            child: Text(post.likeList.join(",")),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),

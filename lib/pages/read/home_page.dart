@@ -14,14 +14,14 @@ class HomeState extends State<HomePage> {
 
   static const _options = const <Widget>[
     ShelfWidget(),
-    GroupListWidget(),
+//    GroupListWidget(),
     MineWidget(),
   ];
 
   static const List<BottomNavigationBarItem> defaultItems =
       const <BottomNavigationBarItem>[
     BottomNavigationBarItem(icon: Icon(Icons.book), title: Text("书架")),
-    BottomNavigationBarItem(icon: Icon(Icons.group), title: Text("小组")),
+//    BottomNavigationBarItem(icon: Icon(Icons.group), title: Text("小组")),
     BottomNavigationBarItem(icon: Icon(Icons.home), title: Text("我的"))
   ];
 
